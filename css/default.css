@@ -1,0 +1,209 @@
+/*-----------------------------------*\
+
+	Toast
+	A Simple CSS Framework
+	=================================
+
+	Values you may want to change:
+	- .container { max-width:; }
+	- p { margin-bottom:; }
+	- html { font:; }
+
+	Remember: no framework will be as
+	good as a custom built, per-
+	project	one. Toast and other
+	frameworks are best used for
+	rapid prototyping.
+
+\*-----------------------------------*/
+
+/*-----------------------------------*\
+	$RESET
+\*-----------------------------------*/
+
+* {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+/*-----------------------------------*\
+	$GRID
+\*-----------------------------------*/
+
+.container {
+	/* Whatever you want. They’re your oats. */
+	max-width: 860px;
+	margin: 0 auto;
+	padding: 20px;
+	box-shadow: 0px 0px 8px 4px #ddd;
+}
+
+.grid {
+	margin-left: -3%;
+	max-width: 100%;
+}
+
+.unit {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: top;
+	margin-left: 3%;
+	margin-right: -.25em;
+	/* Clearfix */
+	overflow: hidden;
+	*overflow: visible;
+}
+
+	.unit.demo {
+		background-color: #fff8eb;
+		height: 48px;
+		height: 3rem;
+		margin-bottom: 24px;
+		margin-bottom: 1.5rem;
+	}
+
+.span-grid {
+	width: 97%;
+}
+
+.one-of-two { width: 47%; }
+
+.one-of-three { width: 30.36%; }
+.two-of-three { width: 63.666666666%; }
+
+.one-of-four { width: 26.05%; }
+.three-of-four { width: 68%; }
+
+.one-of-five { width: 17.07%; }
+.two-of-five { width: 37%; }
+.three-of-five { width: 57%; }
+.four-of-five { width: 77%; }
+
+@media screen and (max-width: 650px) {
+	.grid {
+		margin-left: 0;
+		max-width: none;
+	}
+
+	.unit {
+		width: auto;
+		margin-left: 0;
+		display: block;
+	}
+}
+
+/*-----------------------------------*\
+	$TYPE
+
+	Works off the assumption of a 1.5
+	line height @ 20px. Again, change
+	as necessary.
+\*-----------------------------------*/
+
+p, .p, ul, ol, hr, table, form, pre,
+h1, .alpha, .beta {
+	margin-bottom: 30px;
+	margin-bottom: 1.5rem;
+}
+
+h2 {
+	margin-bottom: 1rem;
+}
+
+h1, .alpha {
+	font-size: 60px;
+	font-size: 3rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+h2, .beta {
+	font-size: 30px;
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 2;
+}
+
+h3, .gamma {
+	font-size: 20px;
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+hr {
+	border: none;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	margin-top: -1px;
+}
+
+/*-----------------------------------*\
+	$MAIN
+\*-----------------------------------*/
+
+
+@media screen and (max-width: 650px) {
+	html {
+		font-size: 100%;
+	}
+}
+
+/*
+	fonts: nav, h1 - helvetica condensed bold
+			h5 - helvetica light
+*/
+
+html {
+	height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+body {
+	height: 100%;
+
+	/* using generated css3 */
+
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffffff 0%, #e0e0e0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e0e0e0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#e0e0e0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffffff 0%,#e0e0e0 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffffff 0%,#e0e0e0 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffffff 0%,#e0e0e0 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e0e0e0',GradientType=0 ); /* IE6-9 */
+		
+	color: #111;
+}
+
+ul {
+	list-style-type: none;
+}
+
+form div {
+	margin-bottom: .5em;
+}
+
+form textarea {
+	height: 8em;
+	padding: 2px;
+}
+
+form input {
+	padding: 2px;
+}
+
+h2 {
+	margin-bottom: 1em;
+}
+
