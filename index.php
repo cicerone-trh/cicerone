@@ -5,14 +5,41 @@
 <html>
 <head>
 	<title>cicerone</title>
+
+	<meta charset="utf-8">
+
 	<link rel="stylesheet" type="text/css" href="css/default.css" />
+
+	<link href='http://fonts.googleapis.com/css?family=Kreon:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Comfortaa:400,300,700' rel='stylesheet' type='text/css'>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/main.js"></script>
+
 </head>
 
 <body>
 <div class="container">
-	<h1>Cicerone - Personal Historian</h1>
+	<?php require_once("header.php");?>
+	<hr>
 	<div class="grid">	
-	<div class="unit three-of-four">
+	<div class="unit one-of-four">
+		<h2>Projects: <span style="font-size:50%">View | Edit</span>	</h2>
+			<ul id="project-list">
+			<?php
+				$sql = "SELECT name FROM cicerone_projects";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+					while($row = $result->fetch_assoc()) {
+						echo "<li>" . $row['name'] . "</li>\n";
+					}
+				}
+			?>
+			</ul>
+	</div>
+
+
+	<div style="border-left: 1px solid #000;padding-left: 20px" class="unit three-of-four">
 		<h2>Add Activity</h2>
 		<form method="post" action="process.php">
 
@@ -63,77 +90,47 @@
 
 		</form>
 	</div>
-	<div class="unit one-of-four">
-		<h2>Projects</h2>
-		<ul>
-			<?php
-				$sql = "SELECT name FROM cicerone_projects";
-				$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
-					while($row = $result->fetch_assoc()) {
-						echo "<li>" . $row['name'] . "</li>\n";
-					}
-				}
-			?>
-
-		<!--
-			<li>sell things</li>
-			<li>get a job</li>
-			<li>make em love me</li>
-			<li>Strength Training</li>
-			<li>vim - ctags</li>
-			<li>Game of Traffic</li>
-			<li>Blinkenlights</li>
-			<li>Nervous Pooper</li>
-			<li>Nervous Pooper - Dog</li>
-			<li>Lisp</li>
-			<li>SmallTalk</li>
-			<li>Android Timers</li>
-			<li>Dota Blog - from 3k to 4k</li>
-			<li>Cherokee</li>
-			<li>Failboat Captain - SSS</li>
-			<li>Classy Site</li>
-		-->
-		</ul>
-		
-	</div>
-
-
 
 	</div><!-- end grid -->
 
 	<footer class="grid">
 
-	<span class="unit three-of-four">
-	<?php 
-		$sql = "SELECT duration FROM cicerone_activities";
-		$result = $conn->query($sql);
-		$totalSeconds = 0;
-
-		if ($result->num_rows > 0) {
-			while($row = $result->fetch_assoc()) {
-				$totalSeconds += $row['duration'];
-			}
-		}
-
-		$totalHours = $totalSeconds / 60 / 60;
-
-		echo "<p>Total Hours Recorded: "; 
-		echo number_format($totalHours, 2);
-		/*
-		echo "<br>";
-		echo "Target: 75.00";
-		echo "Earned: $";
-		echo number_format($totalHours*25,2);
-		*/
-		echo "</p>";
-	?>
-	</span>
-
 	<span class="unit one-of-four">
-		<p><a href="project.php">New Project</a></p>
-	</span>
+		<p>
+			<a href="project.php">New Project</a> <br />
+			<a href="activity.php">New Activity</a><br />
+			<?php 
+				$sql = "SELECT duration, dateCreated FROM cicerone_activities";
+				$result = $conn->query($sql);
+				$totalSeconds = 0;
+				$todaySeconds = 0;
 
+				// for "past 24 hours" feature
+				$dayAgo = strtotime("-24 hours");
+
+				if ($result->num_rows > 0) {
+					while($row = $result->fetch_assoc()) {
+						$totalSeconds += $row['duration'];
+						
+						if ($row['dateCreated'] <= $dayAgo) {
+							$todaySeconds += $row['duration'];
+						}
+					}
+				}
+
+				$totalHours = $totalSeconds / 60 / 60;
+				$todayHours = $todaySeconds / 60 / 60;
+
+				echo "<p>Total Hours Recorded: "; 
+				echo number_format($totalHours, 2);
+				echo "<br>Today: ";
+				echo number_format($todayHours, 2);
+				echo "</p>";
+			?>
+			</p>
+		</span>
+		<span class="unit three-of-four">
+		</span>
 	</footer>
 </div><!-- end container -->
 

@@ -9,12 +9,13 @@
 		$description = $_POST['description'];
 		$project_id = $_POST['project_id'];
 		$uriLink = $_POST['uriLink'];
+		$types = $_POST['type'];
 
 		$duration = $hours * 60 * 60 + $minutes * 60;
 
 		$sql = "INSERT INTO cicerone_activities ".
-       		"(project_id,activity,duration,description,uriLink,dateCreated) ".
-       		"VALUES($project_id,'$activity',$duration,'$description','$uriLink',NOW())";		
+       		"(project_id,activity,duration,types,description,uriLink,dateCreated) ".
+       		"VALUES($project_id,'$activity',$duration,'$types','$description','$uriLink',NOW())";		
 
 		if ($conn->query($sql) === TRUE) {
 			echo "New record created successfully";
