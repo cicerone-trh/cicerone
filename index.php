@@ -38,27 +38,26 @@
 			</ul>
 	</div>
 
-
 	<div style="border-left: 1px solid #000;padding-left: 20px" class="unit three-of-four">
 		<h2>Add Activity</h2>
-		<form method="post" action="process.php">
+		<form id="addActivity" method="post" action="process.php">
 
 			<div class="grid">
-				<label for="activity" class="unit three-of-five">Activity</label>
+				<label for="name" class="unit three-of-five">Activity</label>
 				<label for="duration" class="unit two-of-five">Duration</label>
 			</div>
 
 			<div class="grid">
-				<input class="unit three-of-five" name="activity"  type="text">
-				<input class="unit one-of-five" name="duration_h" placeholder='h' type="text">
-				<input class="unit one-of-five" name="duration_m" placeholder='m' type="text">
+				<input class="unit three-of-five" name="name" type="text" required>
+				<input class="unit one-of-five" name="duration_h" placeholder='h' type="number">
+				<input class="unit one-of-five" name="duration_m" placeholder='m' type="number">
 			</div>
 
 			<div class="grid">
 				<label for="description" class="unit span-grid">Description</label>
 			</div>
 			<div class="grid">
-				<textarea class="unit span-grid" name="description" type="textfield">
+				<textarea class="unit span-grid" name="description" type="textfield" required>
 				</textarea>
 			</div>
 
@@ -98,7 +97,7 @@
 	<span class="unit one-of-four">
 		<p>
 			<a href="project.php">New Project</a> <br />
-			<a href="activity.php">New Activity</a><br />
+			<a href="debug.php">Debug</a><br />
 			<?php 
 				$sql = "SELECT duration, dateCreated FROM cicerone_activities";
 				$result = $conn->query($sql);
@@ -111,8 +110,8 @@
 				if ($result->num_rows > 0) {
 					while($row = $result->fetch_assoc()) {
 						$totalSeconds += $row['duration'];
-						
-						if ($row['dateCreated'] <= $dayAgo) {
+
+						if (strtotime($row['dateCreated']) >= $dayAgo) {
 							$todaySeconds += $row['duration'];
 						}
 					}

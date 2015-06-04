@@ -1,8 +1,8 @@
 <?php
 	// connect to database --- this will be a separate file eventually
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
+	$username = "cicerone_app";
+	$password = "eatingplumsandstonefruits";
 	$dbname = "cicerone";
 
 	// Create connection

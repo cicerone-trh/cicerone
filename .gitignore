@@ -15,6 +15,10 @@
 # vim open files cause I'm lazy and sometimes don't want to close my stuff
 *.swp
 
+# debug for system identification stuff
+debug.php
+db_connect.php
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

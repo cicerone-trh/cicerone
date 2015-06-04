@@ -1,5 +1,16 @@
 <?php
 	require_once("db_connect.php");
+	
+	// setting up database objects to use in body
+	$projectNames; 		
+	$projectDetails; 
+	$projectActivities; 
+
+	// projectDetails select * from cicerone_projects where id="x"
+	// projectActivities select * from cicerone_activities where project_id="x"
+
+	// listing of projects should have active ones first, and then alphabetical
+	// active being defined by "having been worked on in the past three months"
 ?>
 <!DOCTYPE HTML>
 <html>
