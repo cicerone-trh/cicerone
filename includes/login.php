@@ -7,7 +7,7 @@
 	$_SESSION['user'] = 'lol';
 
 
-	header("Location:../new_index.php",true,303);
+	header("Location: /" ,true,303);
 	exit();
 
 ?>

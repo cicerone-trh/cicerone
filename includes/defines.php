@@ -6,7 +6,7 @@
 	define('CIC_FOOTER', 		CIC_ROOT . "/includes/footer.php");
 
 	// link within html that I will change in many places eventually
-	define('CIC_INDEX_LINK',	'/new_index.php');
+	define('CIC_INDEX_LINK',	'/index.php');
 
 	function displayHours() {
 		$sql = "SELECT duration, dateCreated FROM cicerone_activities";
