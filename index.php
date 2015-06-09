@@ -1,6 +1,9 @@
 <?php
-	require_once("db_connect.php");
+	require_once("includes/db_connect.php");
 ?>
+
+<!-- RICKETY VERSION THAT I AM USING JUST SO THAT I CAN INPUT ACTIVITIES -->
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -20,7 +23,7 @@
 
 <body>
 <div class="container">
-	<?php require_once("header.php");?>
+	<h1>Cicerone</h1>
 	<hr>
 	<div class="grid">	
 	<div class="unit one-of-four">
@@ -40,7 +43,7 @@
 
 	<div style="border-left: 1px solid #000;padding-left: 20px" class="unit three-of-four">
 		<h2>Add Activity</h2>
-		<form id="addActivity" method="post" action="process.php">
+		<form id="addActivity" method="post" action="includes/process.php">
 
 			<div class="grid">
 				<label for="name" class="unit three-of-five">Activity</label>
@@ -57,8 +60,7 @@
 				<label for="description" class="unit span-grid">Description</label>
 			</div>
 			<div class="grid">
-				<textarea class="unit span-grid" name="description" type="textfield" required>
-				</textarea>
+				<textarea class="unit span-grid" name="description" type="textfield" required></textarea>
 			</div>
 
 			<div class="grid">
@@ -132,6 +134,6 @@
 		</span>
 	</footer>
 </div><!-- end container -->
-
 </body>
 </html>
+

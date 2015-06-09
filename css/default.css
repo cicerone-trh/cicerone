@@ -218,5 +218,25 @@ header a {
 }
 
 #project-list .selected {
-	background-color: #fff;
+	background-color: #4f04ff;
 }
+
+/*-----------------------------------*\
+	$LOGIN-FORM
+\*-----------------------------------*/
+
+.clear {
+	clear: both;
+}
+
+
+#login-form form label {
+	float: left;
+}
+
+#login-form form input {
+	float: right;
+}
+
+
+
