@@ -125,7 +125,7 @@
 		<div class="grid">
 			<select class="unit span-grid" name="project_id">
 		<?php
-			$sql = "SELECT name,id FROM cicerone_projects";
+			$sql = "SELECT name,id FROM cicerone_projects WHERE user_id=$user_id";
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 				while($row = $result->fetch_assoc()) {
