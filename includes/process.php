@@ -1,6 +1,42 @@
 <?php
 
+	error_reporting(E_ALL);
+	ini_set('display_errors',1);
+
 	require_once("db_connect.php");
+	
+	
+	if(isset($_POST['create-account'])){
+
+		$username = $_POST['new_username'];
+		$password = $_POST['new_password'];
+
+		$_SESSION['processMessage'] = "";
+
+		$blankEntry = '/\S/';
+
+		// if either username or password is empty (ie they have scripts turned off)
+		if (!preg_match($blankEntry, $username) || !preg_match($blankEntry, $password)){
+			$_SESSION['processMessage'] .= "Username or Password was empty.<br>";
+		} else {
+
+			// check if the username is in use
+			$query = "SELECT username FROM cicerone_users WHERE username='$username'";
+			$result = $conn->query($query);
+			if ($result->num_rows > 0) {
+				$_SESSION['processMessage'] .= "That username already exists.<br>";
+			} else {
+
+				// if not in use, attempt the insert
+				$stmt=$conn->prepare("insert into cicerone_users (username,password) values (?, ?)");
+				$stmt->bind_param("ss", $username, $password);
+				$stmt->execute();
+
+				$_SESSION['processMessage'] .= "You have been added to the system.";
+			}	
+		}
+	
+	}
 
 	if(isset($_POST['add-activity'])) {
 
@@ -52,6 +88,7 @@
 	if(isset($_POST['add-project'])) {
 		$isValid = true;
 
+		$user_id = $_SESSION['user_id'];
 		$projectName = $_POST['project'];	
 		$description = $_POST['description'];
 		$uriLink = $_POST['uriLink'];
@@ -64,11 +101,11 @@
 	
 		$stmt = $conn->prepare(
 			"INSERT INTO cicerone_projects " .
-			"(name, description, isValue, uriLink, dateCreated) " .
-			"VALUES(?,?,?,?,NOW())"
+			"(user_id, name, description, isValue, uriLink, dateCreated) " .
+			"VALUES(?,?,?,?,?,NOW())"
 		);
 
-		$stmt->bind_param("ssis", $projectName, $description, $isValue, $uriLink);
+		$stmt->bind_param("issis", $user_id, $projectName, $description, $isValue, $uriLink);
 
 		if ($stmt->execute()) {
 			echo "New record created successfully";

@@ -10,9 +10,9 @@
 
 <div class="content-header">
 	<ul>
-		<li><span id="view-history-link" class="js-link activeLink">View History</span></li>
-		<li><span id="add-project-link" class="js-link">Add Project</span></li>
-		<li><span id="add-activity-link" class="js-link">Add Activity</span></li>
+		<li><span data-order="1" id="view-history-link" class="js-link activeLink">View History</span></li>
+		<li><span data-order="2" id="add-project-link" class="js-link">Add Project</span></li>
+		<li><span data-order="3" id="add-activity-link" class="js-link">Add Activity</span></li>
 		<li><a href="/includes/logout.php">logout</a></li>
 	</ul>
 </div>
@@ -22,7 +22,8 @@
 	<h2>Projects:</h2>
 		<ul id="project-list">
 		<?php
-			$sql = "SELECT name FROM cicerone_projects";
+			$user_id = $_SESSION['user_id'];
+			$sql = "SELECT name FROM cicerone_projects WHERE user_id = $user_id";
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 				while($row = $result->fetch_assoc()) {
@@ -103,8 +104,8 @@
 
 		<div class="grid">
 			<input class="unit three-of-five" name="name" type="text" required>
-			<input class="unit one-of-five" name="duration_h" placeholder='h' type="number">
-			<input class="unit one-of-five" name="duration_m" placeholder='m' type="number">
+			<input class="unit one-of-five" name="duration_h" placeholder='h' type="">
+			<input class="unit one-of-five" name="duration_m" placeholder='m' type="">
 		</div>
 
 		<div class="grid">
