@@ -1,27 +1,31 @@
 <?php
-	require_once('../db_connect.php');
-
-	class Project {
+	class Activity {
 
 		private $name;
 		private $description;
-		private $activities;
+		private $duration;
+		private $dateCreated;
 
-		// accessors
+		public function __construct($activityArray) {
+			$this->name = $activityArray['name'];
+			$this->duration = $activityArray['duration'];
+			$this->dateCreated = $activityArray['dateCreated'];
+		}
+
 		public function getName() {
-			
+			return $this->name;
 		}
 
 		public function getDesc() {
-
-		}
-
-		public function getActivities(){
-
+			return $this->description;
 		}
 
 		public function getTime() {
-			
+			return $this->duration;
+		}
+
+		public function getDateCreated() {
+			return strtotime($this->dateCreated);
 		}
 	}	
 ?>	

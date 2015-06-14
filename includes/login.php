@@ -12,11 +12,11 @@
 		$stmt->execute();
 		$stmt->bind_result($user_id, $name);
 
-
 		if ($stmt->fetch()) {
 			// should this initialize an object? how does one do that with client/s?
 			$_SESSION['username'] = $name;
 			$_SESSION['user_id'] = $user_id;
+			$_SESSION['discard_after'] = time() + 100000;		// logged in for 10 seconds
 		} else {
 			$error = "could not find user, pw";
 		}

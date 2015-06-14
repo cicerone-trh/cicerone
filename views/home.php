@@ -21,50 +21,17 @@
 	<div class="unit one-of-four">
 	<h2>Projects:</h2>
 		<ul id="project-list">
-		<?php
-			$user_id = $_SESSION['user_id'];
-			$sql = "SELECT name FROM cicerone_projects WHERE user_id = $user_id";
-			$result = $conn->query($sql);
-			if ($result->num_rows > 0) {
-				while($row = $result->fetch_assoc()) {
-					echo "<li>" . $row['name'] . "</li>\n";
-				}
-			}
-		?>
+			<?php $User->listProjects(); ?>
 		</ul>
-		<?php // displaying hours done
-			$sql = "SELECT duration, dateCreated FROM cicerone_activities";
-			$result = $conn->query($sql);
-			$totalSeconds = 0;
-			$todaySeconds = 0;
-
-			// for "past 24 hours" feature
-			$dayAgo = strtotime("-24 hours");
-
-			if ($result->num_rows > 0) {
-				while($row = $result->fetch_assoc()) {
-					$totalSeconds += $row['duration'];
-
-					if (strtotime($row['dateCreated']) >= $dayAgo) {
-						$todaySeconds += $row['duration'];
-					}
-				}
-			}
-
-			$totalHours = $totalSeconds / 60 / 60;
-			$todayHours = $todaySeconds / 60 / 60;
-
-			echo "<p>Total Hours Recorded: "; 
-			echo number_format($totalHours, 2);
-			echo "<br>Today: ";
-			echo number_format($todayHours, 2);
-			echo "</p>";
-		?>
+		<p>Total Hours Recorded: <?php echo $User->getTime(); ?><br>
+		Today: <?php echo $User->getTimeByDates(strtotime("-24 hours"), time()); ?></p>
 	</div> <!-- project list -->
 	<div class="unit three-of-four">
-	<h2>Item Details</h2>
+	<h2>History</h2>
+		<ul id="history-list">
+			<?php $User->listActivities(); ?>
+		</ul>
 	</div>
-
 </div> 
 <div id="add-project" class="form-div hidden">
 	<form method="post" action="/includes/process.php">
@@ -125,7 +92,7 @@
 		<div class="grid">
 			<select class="unit span-grid" name="project_id">
 		<?php
-			$sql = "SELECT name,id FROM cicerone_projects WHERE user_id=$user_id";
+			$sql = "SELECT name,id FROM cicerone_projects WHERE user_id=" . $User->getId();
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 				while($row = $result->fetch_assoc()) {
