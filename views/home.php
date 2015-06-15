@@ -32,10 +32,10 @@
 		Today: <?php echo $User->getTimeByDates(strtotime("-24 hours"), time()); ?></p>
 	</div> <!-- project list -->
 	<div class="unit three-of-four">
-	<h2>History</h2>
-		<ul id="history-list">
+	<h2>Activity History</h2>
+		<div id="history-list">
 			<?php $User->listActivities(); ?>
-		</ul>
+		</div>
 	</div>
 </div> 
 <div id="add-project" class="form-div hidden">

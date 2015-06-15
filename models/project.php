@@ -21,7 +21,9 @@
 			$this->buildActivitiesList();
 		}
 
-
+		public function getActivities() {
+			return $this->activities;
+		}
 
 		public function getDescription() {
 			return $this->description;

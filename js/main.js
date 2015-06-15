@@ -18,7 +18,13 @@ $(document).ready(function () {
 	addHomeLink("#donate-link", "#donate-cic");	
 	addHomeLink("#account-link", "#account-form");	
 
+/******************************
+ * ACTIVITY LIST CONTROLS     *
+ ******************************/
 
+	$(".activity-entry").find(".js-link").click(function() {
+		$(this).parent().find(".activity-description").toggle("slide down");
+	});
 
 /******************************
  * PROJECT LIST CONTROLS      *

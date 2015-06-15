@@ -19,20 +19,6 @@ body {
 	color: #fff !important;
 }
 
-#project-list {
-	padding-left: 4px;
-	margin-bottom: 0.5em;
-}
-
-#project-list-controls {
-	margin-bottom: 1.0em;
-}
-
-#project-list-controls span {
-	transition: 1.0s;
-	text-align: center;
-}
-
 .clickable {
 	color: #a8c9ff !important;
 }
@@ -45,10 +31,6 @@ body {
 	background-color: 	#0f1b30;
 	border-radius: 50px;
 	height: 100%;
-	overflow-x: hidden;
-}
-
-#account-form h2, #account-form span {
 }
 
 .form-div {
@@ -87,4 +69,38 @@ a:visited {
 	color: 				#4F91FF;
 }
 
+/******
+* VIEW HISTORY STYLES 
+******/
+#project-list {
+	padding-left: 4px;
+	margin-bottom: 0.5em;
+}
 
+#project-list-controls {
+	margin-bottom: 1.0em;
+}
+
+#project-list-controls span {
+	transition: 1.0s;
+	text-align: center;
+}
+
+.activity-entry {
+}
+
+.activity-date {
+	font-family: monospace;
+}
+
+.activity-duration {
+	float: right;
+}
+
+.activity-description {
+	padding-left: 2.0em;
+}
+
+#history-list {
+	overflow: auto;
+}
