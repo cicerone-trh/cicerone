@@ -6,6 +6,10 @@
  *  almost white-blue: A8C9FF
  */
 
+a:hover {
+	text-decoration: none;
+}
+
 body {
 	background-color: 	#00091B;
 	color: 				#a8c9ff;
@@ -15,16 +19,27 @@ body {
 	color: #fff !important;
 }
 
-/*
- 
-.component-container div {
-	float: left;
-}
-.component-transition {
-	float: left;
+#project-list {
+	padding-left: 4px;
+	margin-bottom: 0.5em;
 }
 
-*/
+#project-list-controls {
+	margin-bottom: 1.0em;
+}
+
+#project-list-controls span {
+	transition: 1.0s;
+	text-align: center;
+}
+
+.clickable {
+	color: #a8c9ff !important;
+}
+
+.clickable span {
+	color: #febf00;
+}
 
 .container {
 	background-color: 	#0f1b30;
@@ -33,8 +48,10 @@ body {
 	overflow-x: hidden;
 }
 
-.form-div {
+#account-form h2, #account-form span {
+}
 
+.form-div {
 }
 
 .form-div form {

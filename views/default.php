@@ -3,33 +3,63 @@
 <!-- login form -->
 <div class="content-header">
 	<ul>
-		<li><a href="">About</a></li>
-		<li><a href="">View</a></li>
-		<li><a href="">Donate</a></li>
-		<li><a href="">Create Account</a></li>
+		<li><span data-order="1" id="about-link" class="js-link">About</span></li>
+		<li><span data-order="2" id="view-link" class="js-link">View</span></li>
+		<li><span data-order="3" id="donate-link" class="js-link">Donate</span></li>
+		<li><span data-order="4" id="account-link" class="activeLink js-link">Login</span></li>
 	</ul>
 </div>
-<div class="form-div" id="login-form">
-	<form id="loginForm" method="post" action="/includes/login.php">
-		<div>
-			<label>user name: </label><input name="username" type="text">
-		</div>
-		<div class="clear">
-			<label>password: </label><input name="password" type="password">
-		</div>
-		<div class="clear">
-			<input type="submit"> 
-		</div>
-	</form>
+<div class="active-component form-div" id="account-form">
+	<div id="login-form">
+		<form id="loginForm" method="post" action="/includes/login.php">
+			<label class="unit one-of-two">user name: </label>
+			<label class="unit one-of-two">password: </label>
+			<input class="unit one-of-two" name="username" type="text">
+			<input class="unit one-of-two" name="password" type="password">
+			<div style="margin-top: 1em;">
+				<span class="unit one-of-two"></span>
+				<span style="text-align: right" class="unit one-of-two"><input class="unit one-of-two" type="submit" value="Login"></span>
+			</div>
+			<span style="text-align:right" id="create-link" class="unit span-grid js-link">Need Account?</span>
+
+		</form>
+
+		
+	</div>
+	<div class="hidden" id="create-form">
+		<form id="createAccount" method="post" action="/includes/process.php">
+			<label class="unit one-of-two">user name: </label>
+			<label class="unit one-of-two">password: </label>
+			<input class="unit one-of-two" name="new_username" type="text">
+			<input class="unit one-of-two" name="new_password" type="password">
+			<div style="margin-top: 1em;">
+				<span class="unit one-of-two"></span>
+				<span style="text-align: right" class="unit one-of-two"><input class="unit one-of-two" type="submit" name="create-account" value="Create Account"></span>
+			</div>
+
+		<span style="text-align:right" id="login-link" class="unit span-grid js-link">Back to Login</span>
+		</form>	
+	</div>
+
 </div>
 
-<div id="create-form">
-	<h2>Create Account</h2>
-	<form id="createAccount" method="post" action="/includes/process.php">
-		<input name="new_username">
-		<input name="new_password" type="password">
-		<input name="create-account" type="submit">
-	</form>	
+
+
+<div class="hidden" id="about-cic">
+	<h2>About</h2>
+	<article>
+		<p>This is a web application I wrote to keep track of your work on projects. More information about why this is valuable vs say github or time tracker software at my blog</p>
+	</article>
+</div>
+
+<div class="hidden" id="view-cic">
+	<h2>View a History</h2>
+	<p>You can search for histories here, or you can see an example: <a>trh</a></p>
+</div>
+
+<div class="hidden" id="donate-cic">
+	<h2>Donate</h2>
+	<p>I'm poor, please donate so I don't die.</p>
 </div>
 
 

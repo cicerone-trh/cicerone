@@ -4,7 +4,7 @@
 	 * From this page, a user can view and edit their history
 	 * */
 ?>
-
+<?php $document_title = "Home"; ?>
 <?php include(CIC_HEADER); ?>
 <?php require_once( CIC_ROOT . "/includes/db_connect.php"); ?>
 
@@ -21,8 +21,13 @@
 	<div class="unit one-of-four">
 	<h2>Projects:</h2>
 		<ul id="project-list">
+			<li>--View All</li>
 			<?php $User->listProjects(); ?>
 		</ul>
+		<div id="project-list-controls" class="grid">
+			<span id="show-project-link" class="unit one-of-two">View</span><span id="edit-project-link" class="unit one-of-two">Edit</span>
+		</div>
+
 		<p>Total Hours Recorded: <?php echo $User->getTime(); ?><br>
 		Today: <?php echo $User->getTimeByDates(strtotime("-24 hours"), time()); ?></p>
 	</div> <!-- project list -->

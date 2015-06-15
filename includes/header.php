@@ -2,8 +2,8 @@
 <html>
 <head>
 <title>Cicerone
-<?php if ($document_title) {
-	echo "\-";
+<?php if (isset($document_title)) {
+	echo "- ";
 	echo $document_title;
 }
 ?>

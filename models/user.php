@@ -49,15 +49,11 @@
 		}
 
 		public function listProjects() {
-			echo "<ul>";
-			
 			foreach ($this->projects as $project) {
 				echo "<li>";
 				echo $project->getName();
 				echo "</li>\n";
 			}
-			
-			echo "</ul>\n";
 		}
 
 		private function buildProjectList() {

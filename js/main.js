@@ -1,9 +1,38 @@
 $(document).ready(function () {
+/******************************
+ * DEFAULT PAGE LINKS         *
+ ******************************/
+	
+	$("#create-link").click(function() {
+		$("#login-form").slideUp();
+		$("#create-form").delay(400).slideDown(300);
+	});
+
+	$("#login-link").click(function() {
+		$("#create-form").slideUp();
+		$("#login-form").delay(400).slideDown(300);
+	});
+
+	addHomeLink("#about-link", "#about-cic");		
+	addHomeLink("#view-link", "#view-cic");		
+	addHomeLink("#donate-link", "#donate-cic");	
+	addHomeLink("#account-link", "#account-form");	
+
+
+
+/******************************
+ * PROJECT LIST CONTROLS      *
+ ******************************/
+	//$("").click(function() {
+
+	//});
+
 
 /******************************
  * TEMPORARY STUFF            *
  ******************************/
 	$("#project-list li").click(function() {
+		$("#project-list-controls").addClass("clickable");
 		$(this).addClass("selected").siblings().removeClass("selected");
 	});
 
@@ -78,7 +107,7 @@ $(document).ready(function () {
  * FUNCTIONS                  *
  ******************************/
 
-function addHomeLink(linkid, blockid, order) {
+function addHomeLink(linkid, blockid) {
 	$(linkid).click(function() {
 		var inDir, outDir;
 		if (!$(linkid).hasClass("activeLink")) {
