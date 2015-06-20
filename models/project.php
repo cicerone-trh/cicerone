@@ -68,7 +68,7 @@
 			$sql = "select * from cicerone_activities where project_id = $this->project_id";
 			$result = $this->db->query($sql);
 			while ($row = $result->fetch_assoc()){
-				$this->activities[$row['id']] = new Activity($row);
+				$this->activities[$row['id']] = new Activity($row,$this->db);
 			}
 		}
 	}	

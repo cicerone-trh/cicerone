@@ -36,6 +36,11 @@
 		<div id="history-list">
 			<?php $User->listActivities(); ?>
 		</div>
+		<div id="edit-form-div" class="hidden">
+			<div id="edit-form">
+			</div>
+			<span id="cancel-edit" class="js-link">Cancel Editing</span>
+		</div>
 	</div>
 </div> 
 <div id="add-project" class="form-div hidden">
@@ -62,7 +67,7 @@
 		</div>
 		<div class="grid">
 			<input class="unit four-of-five" name="uriLink" placeholder='Uri' type="text">
-			<input class="unit one-of-five" name="add-project" type="submit" value="Submit">
+			<input class="unit one-of-five" name="add_project" type="submit" value="Submit">
 		</div>
 	</form>
 </div>
@@ -91,7 +96,7 @@
 			<label for="type" class="unit span-grid">Types</label>
 		</div>
 		<div class="grid">
-			<input class="unit span-grid" name="type" placeholder='Types' type="text">
+			<input class="unit span-grid" name="types" placeholder='Types' type="text">
 		</div>
 
 		<div class="grid">
@@ -110,7 +115,7 @@
 
 		<div class="grid">
 			<input class="unit four-of-five" name="uriLink" placeholder='Uri' type="text">
-			<input class="unit one-of-five" name="add-activity" type="submit" value="Submit">
+			<input class="unit one-of-five" name="add_activity" type="submit" value="Submit">
 		</div>
 	</form>
 

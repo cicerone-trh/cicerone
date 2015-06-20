@@ -30,7 +30,11 @@ body {
 .container {
 	background-color: 	#0f1b30;
 	border-radius: 50px;
-	height: 100%;
+}
+
+.info {
+	width: 70%;
+	margin: 0 auto;
 }
 
 .form-div {
@@ -87,6 +91,7 @@ a:visited {
 }
 
 .activity-entry {
+	margin-bottom: 0.25em;
 }
 
 .activity-date {
@@ -94,11 +99,39 @@ a:visited {
 }
 
 .activity-duration {
-	float: right;
 }
 
 .activity-description {
 	padding-left: 2.0em;
+	padding-right: 2.0em;
+}
+
+.clear {
+	clear: both;
+}
+
+.icons img {
+	cursor: pointer;
+}
+
+.e-icon {
+	height: 0.75em;
+	width: 0.75em;
+	margin-left: 0.5em;
+}
+.d-icon {
+	height: 0.75em;
+	width: 0.75em;
+	margin-left: 0.5em;
+}
+.fr {
+	margin-left: 0.5em;
+	float: right;
+}
+
+.fl {
+	float: left;
+	margin-right: 0.5em;
 }
 
 #history-list {

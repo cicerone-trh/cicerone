@@ -4,9 +4,16 @@
 	ini_set('display_errors',1);
 
 	require_once("db_connect.php");
+	require_once("../models/activity.php");
+
+	if(isset($_POST['mod_activity'])) {
+		// duration to seconds
+		$_POST['duration'] = $_POST['duration_m']*60 + $_POST['duration_h']*3600;
+		$activity = new Activity($_POST,$conn);
+		$activity->saveToDB();
+	}
 	
-	
-	if(isset($_POST['create-account'])){
+	if(isset($_POST['create_account'])){
 
 		$username = $_POST['new_username'];
 		$password = $_POST['new_password'];
@@ -38,7 +45,7 @@
 	
 	}
 
-	if(isset($_POST['add-activity'])) {
+	if(isset($_POST['add_activity'])) {
 
 		$isValid = true;
 
@@ -48,7 +55,7 @@
 		$description = $_POST['description'];
 		$project_id = $_POST['project_id'];
 		$uriLink = $_POST['uriLink'];
-		$types = $_POST['type'];
+		$types = $_POST['types'];
 
 		// if any required entry is blank
 
@@ -85,7 +92,7 @@
 	
 	}
 
-	if(isset($_POST['add-project'])) {
+	if(isset($_POST['add_project'])) {
 		$isValid = true;
 
 		$user_id = $_SESSION['user_id'];
@@ -115,7 +122,7 @@
 	}
 
 
-	header("Location:../index.php",true,303);
+	header("Location:/",true,303);
 	exit();
 
 

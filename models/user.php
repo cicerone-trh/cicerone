@@ -11,6 +11,8 @@
 		private $url;
 		private $totalTime;
 
+		private $listType;
+
 
 		public function __construct ($id, $db) {
 			$this->db = $db;
@@ -19,6 +21,8 @@
 			$this->projects = array();
 			$this->buildProjectList();
 			$this->setTime();
+
+			$this->listType = "default";
 		}
 
 
@@ -44,16 +48,30 @@
 
 		// list activities in reverse chronological order
 		public function listActivities() {
-			krsort($this->activities);
-			foreach ($this->activities as $activity) {
-				echo "<div class=\"activity-entry\">";
-				echo "<span class=\"activity-date\"> [" . $activity->getMDY() . "] </span>";
-				echo "<span class=\"js-link\">" . $activity->getName() . "</span>";
-				echo "<span class=\"activity-duration\"> (" . $activity->getTimeAsHours() . ") </span>";
-				echo "<div class=\"activity-description hidden\">";
-				echo $activity->getDesc();
-				echo "</div>";
-				echo "</div>";
+			if ($this->listType == "project") {
+
+			} else {
+				krsort($this->activities);
+				foreach ($this->activities as $activity) {
+					echo "<div class=\"activity-entry\">";
+					echo "<span class=\"activity-date\"> [" . $activity->getMDY() . "] </span>";
+					echo "<span class=\"js-link\">" . $activity->getName() . "</span>";
+
+					echo "<span class=\"fr activity-duration\"> (" . $activity->getTimeAsHours() . ") </span>";
+					if ($activity->hasLink()) {
+						echo "<span class=\"fr\"><a target=\"_new\" href=\"" . $activity->getLink() . "\">Link</a></span>";
+					}
+					echo "<span data-id=\"" . $activity->getId() . "\"" . "class=\"icons hidden\">";
+					echo "<img class=\"e-icon\" src=\"/img/edit.svg\" alt=\"Edit\"/>";
+					echo "<img class=\"d-icon\" src=\"/img/delete_2.svg\" alt=\"Delete\"/>";
+					echo "</span>";
+					echo "<div class=\"activity-description hidden\">";
+					echo $activity->getDesc();
+					echo "<br>";
+					echo "<div class=\"clear\"></div>";
+					echo "</div>";
+					echo "</div>";
+				}
 			}
 		}
 
