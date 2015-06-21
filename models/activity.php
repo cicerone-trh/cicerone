@@ -20,7 +20,6 @@
 			// WELL SINCE WE DON'T HAVE OVERLOADING
 			// if it is not array we're going to assume id was passed
 
-
 			$this->db = $db;
 
 			if (is_array($activityArray)){

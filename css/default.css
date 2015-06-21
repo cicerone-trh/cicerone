@@ -181,10 +181,6 @@ body {
 	background-color: #fff;
 }
 
-.container {
-	background-color: #fee;
-}
-
 ul {
 	list-style-type: none;
 }
@@ -219,11 +215,11 @@ header a {
 	Project List Styles
 */
 
-#project-list li {
+#projectList li {
 	cursor:pointer;
 }
 
-#project-list .selected {
+#projectList .selected {
 	background-color: #4f04ff;
 }
 

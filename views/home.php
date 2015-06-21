@@ -20,19 +20,20 @@
 <div class="grid active-component" id="view-history">
 	<div class="unit one-of-four">
 	<h2>Projects:</h2>
-		<ul id="project-list">
-			<li>--View All</li>
+		<ul id="projectList">
+			<li data-projectid="0">--View All</li>
 			<?php $User->listProjects(); ?>
 		</ul>
-		<div id="project-list-controls" class="grid">
-			<span id="show-project-link" class="unit one-of-two">View</span><span id="edit-project-link" class="unit one-of-two">Edit</span>
+		<div id="projectListControls" class="grid">
+			<span id="editProjectLink" class="unit one-of-two"></span>
+			<span id="showProjectLink" class="unit one-of-two">View</span>
 		</div>
 
 		<p>Total Hours Recorded: <?php echo $User->getTime(); ?><br>
 		Today: <?php echo $User->getTimeByDates(strtotime("-24 hours"), time()); ?></p>
 	</div> <!-- project list -->
 	<div class="unit three-of-four">
-	<h2>Activity History</h2>
+	<h2>Activity History <span id="expand_all">Show All</span><span id="hide_all">Hide All</span></h2>
 		<div id="history-list">
 			<?php $User->listActivities(); ?>
 		</div>
@@ -69,6 +70,7 @@
 			<input class="unit four-of-five" name="uriLink" placeholder='Uri' type="text">
 			<input class="unit one-of-five" name="add_project" type="submit" value="Submit">
 		</div>
+		<span class="note">Note: projects that do not have any activities will not be listed on the view history screen.</span>
 	</form>
 </div>
 <div id="add-activity" class="form-div hidden">

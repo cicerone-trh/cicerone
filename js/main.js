@@ -22,74 +22,35 @@ $(document).ready(function () {
  * ACTIVITY LIST CONTROLS     *
  ******************************/
 
-	var listSpeed = 400;
-	var formSpeed = 200;
-
-	$(".activity-entry").find(".js-link").click(function() {
-
-		if (!$(this).parent().find(".activity-description").hasClass("active-entry")){
-
-			// hide currently active
-			$(".active-entry").parent().find(".icons").fadeToggle();
-			$(".active-entry").slideUp();
-			$(".active-entry").removeClass("active-entry");
-
-			// slide down description
-			$(this).parent().find(".activity-description").toggle("slide down", function() {
-				$(this).addClass("active-entry");
-			});
-
-			// toggle display icons
-			$(this).parent().find(".icons").fadeToggle();
-
-		} else {
-			$(".active-entry").parent().find(".icons").fadeToggle();
-			$(".active-entry").slideUp();
-			$(".active-entry").removeClass("active-entry");
-		}
-	
+	$("#expand_all").click(function(){
+		$(".activity-description").slideDown();
 	});
 
-	$(".activity-entry").find(".d-icon").click(function() {
-		var id = $(this).parent().data("id");
-		if(window.confirm("Are you sure you want to delete this?")){
-			window.location.href = "includes/delete_activity.php?id=" + id;
-		} 
+	$("#hide_all").click(function(){
+		$(".activity-description").slideUp();
 	});
 
-	$(".activity-entry").find(".e-icon").click(function() {
-
-		var editFormDiv = document.getElementById("edit-form");
-		var actId = $(this).parent().data("id");
-
-		createEditForm(editFormDiv, actId);
-		$("#history-list").slideUp(listSpeed, function() {
-			$("#edit-form-div").slideDown(formSpeed);
-		});
-	});
-
-	$("#cancel-edit").click(function(){
-		$("#edit-form-div").slideUp(formSpeed, function() {
-			$("#history-list").slideDown(listSpeed, function() {
-				$("#edit-form").html("");
-			});
-		});
-	});
-
+	buildActivityListLinks();
 
 /******************************
  * PROJECT LIST CONTROLS      *
  ******************************/
-	//$("").click(function() {
+	$("#showProjectLink").click(function() {
+		var project = $("#projectList").find(".selected");
+		var activityListDiv = document.getElementById("history-list");
 
-	//});
+		$("#history-list").slideUp(500, function() {
+			listProject(activityListDiv, project.data("projectid"));
+		});
+	});
 
+	$("#editProjectLink").click(function() {
+		var project = $("#projectList").find(".selected");
+		alert("edit: " + project.data("projectid"));
+	});
 
-/******************************
- * TEMPORARY STUFF            *
- ******************************/
-	$("#project-list li").click(function() {
-		$("#project-list-controls").addClass("clickable");
+	$("#projectList li").click(function() {
+		$("#projectListControls").addClass("clickable");
 		$(this).addClass("selected").siblings().removeClass("selected");
 	});
 
@@ -161,6 +122,77 @@ $(document).ready(function () {
 /******************************
  * FUNCTIONS                  *
  ******************************/
+
+function listProject(targetDiv, id) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "/includes/ajax.php?act=loadProject&id="+id);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState === 4){
+			targetDiv.innerHTML = xmlhttp.responseText;
+			buildActivityListLinks();
+			$(targetDiv).slideDown();
+		}
+	}
+}
+
+function buildActivityListLinks() {
+
+	var listSpeed = 400;
+	var formSpeed = 200;
+
+	$(".activity-entry").find(".js-link").click(function() {
+
+		if (!$(this).parent().find(".activity-description").hasClass("active-entry")){
+
+			// hide currently active
+			$(".active-entry").parent().find(".icons").fadeToggle();
+			$(".active-entry").slideUp();
+			$(".active-entry").removeClass("active-entry");
+
+			// slide down description
+			$(this).parent().find(".activity-description").toggle("slide down", function() {
+				$(this).addClass("active-entry");
+			});
+
+			// toggle display icons
+			$(this).parent().find(".icons").fadeToggle();
+
+		} else {
+			$(".active-entry").parent().find(".icons").fadeToggle();
+			$(".active-entry").slideUp();
+			$(".active-entry").removeClass("active-entry");
+		}
+	
+	});
+
+	$(".activity-entry").find(".d-icon").click(function() {
+		var id = $(this).parent().data("id");
+		if(window.confirm("Are you sure you want to delete this?")){
+			window.location.href = "includes/delete_activity.php?id=" + id;
+		} 
+	});
+
+	$(".activity-entry").find(".e-icon").click(function() {
+
+		var editFormDiv = document.getElementById("edit-form");
+		var actId = $(this).parent().data("id");
+
+		createEditForm(editFormDiv, actId);
+		$("#history-list").slideUp(listSpeed, function() {
+			$("#edit-form-div").slideDown(formSpeed);
+		});
+	});
+
+	$("#cancel-edit").click(function(){
+		$("#edit-form-div").slideUp(formSpeed, function() {
+			$("#history-list").slideDown(listSpeed, function() {
+				$("#edit-form").html("");
+			});
+		});
+	});
+}
 
 function addHomeLink(linkid, blockid) {
 	$(linkid).click(function() {

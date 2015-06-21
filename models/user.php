@@ -85,9 +85,11 @@
 
 		public function listProjects() {
 			foreach ($this->projects as $project) {
-				echo "<li>";
-				echo $project->getName();
-				echo "</li>\n";
+				if ($project->hasActivities()) {
+					echo "<li data-projectid=\"" . $project->getId() . "\">";
+					echo $project->getName();
+					echo "</li>\n";
+				}
 			}
 		}
 

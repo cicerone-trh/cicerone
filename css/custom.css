@@ -6,11 +6,20 @@
  *  almost white-blue: A8C9FF
  */
 
+#view-history h2 span {
+	font-size: 50%;
+}
+
+a, a:visited {
+	color: #4a91ff;
+}
+
 a:hover {
 	text-decoration: none;
 }
 
 body {
+	overflow-y:			scroll;
 	background-color: 	#00091B;
 	color: 				#a8c9ff;
 }
@@ -25,11 +34,13 @@ body {
 
 .clickable span {
 	color: #febf00;
+	cursor: pointer;
 }
 
 .container {
 	background-color: 	#0f1b30;
 	border-radius: 50px;
+	min-height:100%;
 }
 
 .info {
@@ -76,16 +87,16 @@ a:visited {
 /******
 * VIEW HISTORY STYLES 
 ******/
-#project-list {
+#projectList {
 	padding-left: 4px;
 	margin-bottom: 0.5em;
 }
 
-#project-list-controls {
+#projectListControls {
 	margin-bottom: 1.0em;
 }
 
-#project-list-controls span {
+#projectListControls span {
 	transition: 1.0s;
 	text-align: center;
 }
