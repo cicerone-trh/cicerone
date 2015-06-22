@@ -25,6 +25,8 @@
 		// if either username or password is empty (ie they have scripts turned off)
 		if (!preg_match($blankEntry, $username) || !preg_match($blankEntry, $password)){
 			$_SESSION['processMessage'] .= "Username or Password was empty.<br>";
+		} else if ($_POST['turing_test']!="please") {
+	   		$_SESSION['processMessage'] .= "You didn't say please. I understand :(";
 		} else {
 
 			// check if the username is in use

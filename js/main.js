@@ -2,15 +2,29 @@ $(document).ready(function () {
 /******************************
  * DEFAULT PAGE LINKS         *
  ******************************/
-	
+
+	$("#more-about").click(function() {
+		$("#about-1").hide('slide', {direction: "left"}, 300, function(){
+			$("#about-2").show('slide', {direction: "right"}, 300);
+		});
+	});
+
+	$("#less-about").click(function() {
+		$("#about-2").hide('slide', {direction: "right"}, 300, function(){
+			$("#about-1").show('slide', {direction: "left"}, 300);
+		});
+	});
+
 	$("#create-link").click(function() {
-		$("#login-form").slideUp();
-		$("#create-form").delay(400).slideDown(300);
+		$("#login-form").slideUp(300, function() {
+			$("#create-form").slideDown(300);
+		});
 	});
 
 	$("#login-link").click(function() {
-		$("#create-form").slideUp();
-		$("#login-form").delay(400).slideDown(300);
+		$("#create-form").slideUp(300, function() {
+			$("#login-form").slideDown(300);
+		});
 	});
 
 	addHomeLink("#about-link", "#about-cic");		

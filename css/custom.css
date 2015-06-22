@@ -10,11 +10,9 @@
 	font-size: 50%;
 }
 
-a, a:visited {
+a, a:visited, a:hover {
 	color: #4a91ff;
-}
-
-a:hover {
+	cursor: pointer;
 	text-decoration: none;
 }
 
@@ -43,9 +41,18 @@ body {
 	min-height:100%;
 }
 
+.emphasis {
+	font-weight: 700;
+}
+
+#account-form .info {
+	width: 60%;
+	margin: 0 20%;
+}
+
 .info {
 	width: 70%;
-	margin: 0 auto;
+	margin: 0 15%;
 }
 
 .form-div {
