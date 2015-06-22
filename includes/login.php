@@ -3,22 +3,24 @@
 	require_once("db_connect.php");
 
 	if (isset($_POST['username']) && isset($_POST['password'])) {
-		// password security: sha1 + ? I am going to revisit 
 		$username = $_POST['username'];
-		$password = $_POST['password']; // sha1?
+		$password = $_POST['password']; 
 
-		$stmt = $conn->prepare("select id, username from cicerone_users where username=? and password=?");
-		$stmt->bind_param("ss", $username, $password);
+		$stmt = $conn->prepare("select id, username, password from cicerone_users where username=?");
+		$stmt->bind_param("s", $username);
 		$stmt->execute();
-		$stmt->bind_result($user_id, $name);
+		$stmt->bind_result($user_id, $name, $pass_hash);
 
 		if ($stmt->fetch()) {
-			// should this initialize an object? how does one do that with client/s?
-			$_SESSION['username'] = $name;
-			$_SESSION['user_id'] = $user_id;
-			$_SESSION['discard_after'] = time() + 100000;		// logged in for 10 seconds
+			if (password_verify($password, $pass_hash)) {
+				$_SESSION['username'] = $name;
+				$_SESSION['user_id'] = $user_id;
+				$_SESSION['discard_after'] = time() + 100000;		// logged in for 10 seconds
+			} else {
+				$_SESSION['processMessage'] = "Matching credentials not found.";
+			}
 		} else {
-			$error = "could not find user, pw";
+			$_SESSION['processMessage'] = "Matching credentials not found.";
 		}
 
 		$stmt->close();

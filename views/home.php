@@ -5,8 +5,8 @@
 	 * */
 ?>
 <?php $document_title = "Home"; ?>
-<?php include(CIC_HEADER); ?>
-<?php require_once( CIC_ROOT . "/includes/db_connect.php"); ?>
+<?php include("includes/header.php"); ?>
+<?php require_once("includes/db_connect.php"); ?>
 
 <div class="content-header">
 	<ul>
@@ -21,17 +21,27 @@
 	<div class="unit one-of-four">
 	<h2>Projects:</h2>
 		<ul id="projectList">
-			<li data-projectid="0">--View All</li>
+			<li data-projectid="0" class="selected">--View All</li>
 			<?php $User->listProjects(); ?>
 		</ul>
-		<div id="projectListControls" class="grid">
+		<div id="projectListControls" class="clickable grid">
 			<span id="editProjectLink" class="unit one-of-two"></span>
 			<span id="showProjectLink" class="unit one-of-two">View</span>
 		</div>
 
 		<p>Total Hours Recorded: <?php echo $User->getTime(); ?><br>
 		Today: <?php echo $User->getTimeByDates(strtotime("-24 hours"), time()); ?></p>
+
+		<div id="processMessage">
+		<?php 
+			if (isset($_SESSION['processMessage'])) {
+				echo $_SESSION['processMessage'];
+				unset($_SESSION['processMessage']);
+			}
+		?>
+		</div>
 	</div> <!-- project list -->
+
 	<div class="unit three-of-four">
 	<h2>Activity History <span id="expand_all">Show All</span><span id="hide_all">Hide All</span></h2>
 		<div id="history-list">
@@ -110,6 +120,8 @@
 				while($row = $result->fetch_assoc()) {
 					echo "<option value =\"" . $row['id'] . "\">" . $row['name'] . "</option>\n";
 				}
+			} else {
+				echo "<option value=\"0\">Create a project to add activities</option>";
 			}
 		?>
 			</select>
@@ -125,4 +137,4 @@
 </div><!-- component-container -->
 
 
-<?php include(CIC_FOOTER); ?>
+<?php include("includes/footer.php"); ?>

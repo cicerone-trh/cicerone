@@ -50,6 +50,12 @@ body {
 	margin: 0 20%;
 }
 
+#processMessage {
+	width: 100%;
+	text-align: center;
+	color: #fff;
+}
+
 .info {
 	width: 70%;
 	margin: 0 15%;

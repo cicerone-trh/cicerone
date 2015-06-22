@@ -11,6 +11,8 @@
 	// build activity from id
 	$activity = new Activity($actId,$conn);
 	$activity->deleteActivity($user_id);
+
+	$_SESSION['processMessage'] = "Activity deleted!";
 	
 	header("Location: ../",true,303);
 	exit();

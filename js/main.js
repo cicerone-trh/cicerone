@@ -53,6 +53,7 @@ $(document).ready(function () {
 		var project = $("#projectList").find(".selected");
 		var activityListDiv = document.getElementById("history-list");
 
+		$("#edit-form-div").hide("slide", {direction:"up"}, 200);
 		$("#history-list").slideUp(500, function() {
 			listProject(activityListDiv, project.data("projectid"));
 		});
@@ -96,33 +97,16 @@ $(document).ready(function () {
 	}
 
 	if (document.forms['addActivity']) {
-
 		var activityForm = document.forms['addActivity'];
-
-		activityForm.onsubmit = function validateInput() {
-			var isValid = true;
-
-			if (!activityForm.name.value.match(/\S/)){
-				alert("The activity needs a name");
-				isValid = false;
-			}
-
-			if (!activityForm.duration_h.value.match(/\S/) && !activityForm.duration_m.value.match(/\S/)){
-				alert("Some duration is needed");
-				isValid = false;
-			}
-
-			// if either duration fields are non-numeric
-
-			if (!activityForm.description.value.match(/\S/)){
-				alert("A description is required");
-				isValid = false;
-			}
-
-			return isValid;
+		activityForm.onsubmit = function() {
+			return validateActivity(activityForm);
 		}
-
 	}
+
+/******************************
+ * PROCESS MESSAGE            *
+ ******************************/
+	$("#processMessage").delay(3500).fadeOut();
 
 /******************************
  * JS-LINK BEHAVIOR           *
@@ -288,6 +272,9 @@ function createEditForm(targetDiv, id) {
 				updateForm.uriLink.setAttribute('value',activity.uriLink);
 				updateForm.add_activity.setAttribute('value',"Update");
 				updateForm.add_activity.setAttribute('name',"mod_activity");
+				updateForm.onsubmit = function() {
+					return validateActivity(updateForm);
+				}
 				
 				targetDiv.appendChild(updateForm);
 
@@ -297,3 +284,29 @@ function createEditForm(targetDiv, id) {
 
 
 }
+
+
+function validateActivity(activityForm) {
+	var isValid = true;
+
+	var hasValue = /\S/;
+	var nonNum = /\D/;
+
+	if (!hasValue.test(activityForm.name.value)){
+		alert("The activity needs a name.");
+		isValid = false;
+	}
+
+	if (nonNum.test(activityForm.duration_h.value) || nonNum.test(activityForm.duration_m.value)){
+		alert("Durations can only be positive numbers.");
+		isValid = false;
+	}
+
+	if (!hasValue.test(activityForm.name.value)){
+		alert("The activity needs a description.");
+		isValid = false;
+	}
+
+	return isValid;
+}
+
