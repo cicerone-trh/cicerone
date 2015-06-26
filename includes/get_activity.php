@@ -1,5 +1,5 @@
 <?php
-	require_once("db_connect.php");
+	require_once("../../scripts/db_connect.php");
 	require_once("../models/activity.php");
 
 	if (isset($_GET['id'])){

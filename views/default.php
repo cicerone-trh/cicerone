@@ -81,7 +81,7 @@
 
 <div class="info hidden" id="view-cic">
 	<p>Eventually, you will be able browse and load the history of users that have made their histories public from here.</p>
-	<p>For now, you can see a very shoddy example: <a href="/trh">trh's history</a></p>
+	<!-- <p>For now, you can see a very shoddy example: <a href="/trh">trh's history</a></p> -->
 </div>
 
 <div class="info hidden" id="donate-cic">

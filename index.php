@@ -2,8 +2,8 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors',1);
 
-	require_once('includes/db_connect.php');
 	require_once('includes/defines.php');
+	require_once('../scripts/db_connect.php');
 	require_once('models/user.php');
 
 	$now = time();
@@ -15,11 +15,15 @@
 		session_start();
 	}
 
-	if (isset($_SESSION['user_id'])){			// if user is logged in
-		$User = new User($_SESSION['user_id'], $conn);
-		include('views/home.php');
-	} else {									// if user is not logged in
-		include('views/default.php');
+	if (isset($_GET['user'])){
+		include('views/view.php');
+	} else {
+		if (isset($_SESSION['user_id'])){			// if user is logged in
+			$User = new User($_SESSION['user_id'], $conn);
+			include('views/home.php');
+		} else {									// if user is not logged in
+			include('views/default.php');
+		}
 	}
 
 ?>

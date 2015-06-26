@@ -5,7 +5,7 @@
 
 	require_once("../models/project.php");
 	require_once("../models/user.php");
-	require_once("db_connect.php");
+	require_once("../../scripts/db_connect.php");
 
 	if (isset($_GET['act'])){
 		// request to load project

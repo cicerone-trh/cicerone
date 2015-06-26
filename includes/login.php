@@ -1,6 +1,6 @@
 <?php
 
-	require_once("db_connect.php");
+	require_once("../../scripts/db_connect.php");
 
 	if (isset($_POST['username']) && isset($_POST['password'])) {
 		$username = $_POST['username'];

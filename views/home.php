@@ -6,7 +6,7 @@
 ?>
 <?php $document_title = "Home"; ?>
 <?php include("includes/header.php"); ?>
-<?php require_once("includes/db_connect.php"); ?>
+<?php require_once("../scripts/db_connect.php"); ?>
 
 <div class="content-header">
 	<ul>
@@ -16,6 +16,7 @@
 		<li><a href="/includes/logout.php">logout</a></li>
 	</ul>
 </div>
+
 <div class="component-container">
 <div class="grid active-component" id="view-history">
 	<div class="unit one-of-four">
