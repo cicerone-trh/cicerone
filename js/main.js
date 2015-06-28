@@ -46,6 +46,7 @@ $(document).ready(function () {
 
 	buildActivityListLinks();
 
+
 /******************************
  * PROJECT LIST CONTROLS      *
  ******************************/
@@ -246,19 +247,19 @@ function createEditForm(targetDiv, id) {
 				idField.setAttribute("value",id);
 				updateForm.appendChild(idField);
 
+				// creating hours and minutes from duration
 				var hours = Math.floor(activity.duration / 3600);
 				activity.duration = activity.duration % 3600;
 				var minutes = activity.duration / 60;
 
+				// modifying values and attributes
 				updateForm.setAttribute('name',"updateActivity");
 
-				updateForm.name.setAttribute('value',activity.name);
-				updateForm.duration_h.setAttribute('value',hours);
-				updateForm.duration_m.setAttribute('value',minutes);
-
+				updateForm.name.value = activity.name;
+				updateForm.duration_h.value = hours;
+				updateForm.duration_m.value = minutes;
 				updateForm.description.innerHTML = activity.description;
-
-				updateForm.types.setAttribute('value',activity.types);
+				updateForm.types.value = activity.types;
 
 				// need to get the index of the option w/value = project_id
 				var opts = updateForm.project_id.options;
@@ -269,7 +270,7 @@ function createEditForm(targetDiv, id) {
 					}
 				}
 
-				updateForm.uriLink.setAttribute('value',activity.uriLink);
+				updateForm.uriLink.value = activity.uriLink;
 				updateForm.add_activity.setAttribute('value',"Update");
 				updateForm.add_activity.setAttribute('name',"mod_activity");
 				updateForm.onsubmit = function() {

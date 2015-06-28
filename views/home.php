@@ -47,6 +47,7 @@
 	<h2>Activity History <span id="expand_all">Show All</span><span id="hide_all">Hide All</span></h2>
 		<div id="history-list">
 			<?php $User->listActivities(); ?>
+			<!-- <span id="more_acts" class="js-link fr">More</span> -->
 		</div>
 		<div id="edit-form-div" class="hidden">
 			<div id="edit-form">
