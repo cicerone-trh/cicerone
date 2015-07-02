@@ -5,6 +5,36 @@
 
 	require_once("../../scripts/db_connect.php");
 	require_once("../models/activity.php");
+	require_once("../models/project.php");
+
+	if(isset($_GET['delproj'])) {
+		$project = new Project($_GET['delproj'], $conn);
+		$project->deleteProject();
+	}
+
+	if(isset($_POST['mod_project'])) {
+		$isValid = true;
+		
+		$hasValue = '/\S/';
+
+		if (!preg_match($hasValue, $_POST['description']) || !preg_match($hasValue, $_POST['project'])) {
+			$_SESSION['processMessage'] = "A required field was empty: " . $_POST['description'] . $_POST['project'];
+			$isValid = false;
+		}
+
+		if ($isValid) {
+			$_POST['name'] = $_POST['project'];
+			$project = new Project($_POST,$conn);
+			$success = $project->saveToDB();
+
+			if ($success == true) { 
+				$_SESSION['processMessage'] = "Project updated!";
+			} else {
+				$_SESSION['processMessage'] = "Unable to update project!";
+			}
+		}
+
+	}
 
 	if(isset($_POST['mod_activity'])) {
 		// validate input
@@ -20,7 +50,7 @@
 		}
 
 		// if any required fields are blank
-		if (!preg_match($hasValue, $_POST['description']) || !preg_match($hasValue, $_POST['description'])) {
+		if (!preg_match($hasValue, $_POST['description']) || !preg_match($hasValue, $_POST['name'])) {
 			$_SESSION['processMessage'] = "A required field was empty";
 			$isValid = false;
 		}
@@ -144,7 +174,7 @@
 		$description = $_POST['description'];
 		$uriLink = $_POST['uriLink'];
 
-		if (isset($_POST['isValue'])){
+		if (isset($_POST['isActive'])){
 			$isValue = 1;
 		} else {
 			$isValue = 0;
@@ -152,7 +182,7 @@
 	
 		$stmt = $conn->prepare(
 			"INSERT INTO cicerone_projects " .
-			"(user_id, name, description, isValue, uriLink, dateCreated) " .
+			"(user_id, name, description, isActive, uriLink, dateCreated) " .
 			"VALUES(?,?,?,?,?,NOW())"
 		);
 

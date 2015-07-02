@@ -20,14 +20,14 @@
 <div class="component-container">
 <div class="grid active-component" id="view-history">
 	<div class="unit one-of-four">
-	<h2>Projects:</h2>
+	<h2>Projects <img id="editProjects" alt="Edit" src="/img/edit_project.svg"></h2>
 		<ul id="projectList">
 			<li data-projectid="0" class="selected">--View All</li>
 			<?php $User->listProjects(); ?>
 		</ul>
-		<div id="projectListControls" class="clickable grid">
-			<span id="editProjectLink" class="unit one-of-two"></span>
-			<span id="showProjectLink" class="unit one-of-two">View</span>
+		<div id="projectListControls" class="clickable">
+			<span id="editProjectLink" style="display:inline-block; width:49%" class=""></span>
+			<span id="showProjectLink" style="display:inline-block; width:49%" class="">List</span>
 		</div>
 
 		<p>Total Hours Recorded: <?php echo $User->getTime(); ?><br>
@@ -41,13 +41,16 @@
 			}
 		?>
 		</div>
+		
 	</div> <!-- project list -->
 
 	<div class="unit three-of-four">
-	<h2>Activity History <span id="expand_all">Show All</span><span id="hide_all">Hide All</span></h2>
+		<div id="history_header">
+			<h2>Activity History: </h2>
+			<!--<span id="expand_all">Show All</span><span id="hide_all">Hide All</span>-->
+		</div>
 		<div id="history-list">
 			<?php $User->listActivities(); ?>
-			<!-- <span id="more_acts" class="js-link fr">More</span> -->
 		</div>
 		<div id="edit-form-div" class="hidden">
 			<div id="edit-form">
@@ -57,19 +60,15 @@
 	</div>
 </div> 
 <div id="add-project" class="form-div hidden">
-	<form method="post" action="/includes/process.php">
+	<form id="addProject" method="post" action="/includes/process.php">
 		<div class="grid">
 			<label for="project" class="unit three-of-five">Project</label>
-			<span class="unit two-of-five">
-			</span>
+			<label for="isValue" class="unit two-of-five" style="text-align:center;">Active?</label>
 		</div>
 		<div class="grid">
 			<input class="unit three-of-five" name="project"  type="text">
-			<span class="unit one-of-five">
-				Valuable?
-			</span>
-			<span class="unit one-of-five">
-				<input type="checkbox" name="isValue">
+			<span class="unit two-of-five" style="text-align:center">
+				<input type="checkbox" name="isActive">
 			</span>
 		</div>
 		<div class="grid">
@@ -82,7 +81,7 @@
 			<input class="unit four-of-five" name="uriLink" placeholder='Uri' type="text">
 			<input class="unit one-of-five" name="add_project" type="submit" value="Submit">
 		</div>
-		<span class="note">Note: projects that do not have any activities will not be listed on the view history screen.</span>
+		<span class="note">Note: projects need to be active to add activities to them :)</span>
 	</form>
 </div>
 <div id="add-activity" class="form-div hidden">
@@ -114,9 +113,9 @@
 		</div>
 
 		<div class="grid">
-			<select class="unit span-grid" name="project_id">
+			<select id="projectSelectInput" class="unit span-grid" name="project_id">
 		<?php
-			$sql = "SELECT name,id FROM cicerone_projects WHERE user_id=" . $User->getId();
+			$sql = "SELECT name,id FROM cicerone_projects WHERE isActive=1 AND user_id=" . $User->getId();
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 				while($row = $result->fetch_assoc()) {

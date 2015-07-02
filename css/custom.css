@@ -6,10 +6,6 @@
  *  almost white-blue: A8C9FF
  */
 
-#view-history h2 span {
-	font-size: 50%;
-}
-
 a, a:visited, a:hover {
 	color: #4a91ff;
 	cursor: pointer;
@@ -98,6 +94,44 @@ a:visited {
 }
 
 /******
+* PROJECT SIDEBAR
+******/
+
+#editProjects {
+	height: 0.75em;
+	width: 0.75em;
+	cursor: pointer;
+}
+
+/******
+* PROJECT EDIT LIST
+******/
+
+.projectDetails {
+	clear: both;
+	margin-bottom: 0.25em;
+}
+
+.projectDetails span {
+	display: inline-block;
+}
+
+span.hidden {
+	display: none;
+}
+
+.projectDetails .activeProject {
+	float: right;
+	width: 10%;	
+	text-align: center;
+}
+
+.projectDetails .projectTime {
+	width: 10%;
+}
+
+
+/******
 * VIEW HISTORY STYLES 
 ******/
 #projectList {
@@ -123,6 +157,9 @@ a:visited {
 }
 
 .activity-duration {
+	width: 7%;
+	display: inline-block;
+	text-align: right;
 }
 
 .activity-description {

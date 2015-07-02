@@ -36,16 +36,9 @@ $(document).ready(function () {
  * ACTIVITY LIST CONTROLS     *
  ******************************/
 
-	$("#expand_all").click(function(){
-		$(".activity-description").slideDown();
-	});
-
-	$("#hide_all").click(function(){
-		$(".activity-description").slideUp();
-	});
-
-	buildActivityListLinks();
-
+	buildActivityDisplayLinks(".activity-entry");
+	buildActivityDeleteLinks(".activity-entry", "includes/delete_activity.php?id=");
+	buildActivityEditLinks(".activity-entry", createEditActivityForm);
 
 /******************************
  * PROJECT LIST CONTROLS      *
@@ -60,9 +53,15 @@ $(document).ready(function () {
 		});
 	});
 
-	$("#editProjectLink").click(function() {
-		var project = $("#projectList").find(".selected");
-		alert("edit: " + project.data("projectid"));
+	$("#editProjects").click(function() {
+		var activityListDiv = document.getElementById("history-list");
+
+		// here we go!
+		// scroll up history and header
+		$("#edit-form-div").hide("slide", {direction:"up"}, 200);
+		$("#history-list").slideUp(500, function() {
+			showProjectEditList(activityListDiv);
+		});
 	});
 
 	$("#projectList li").click(function() {
@@ -107,7 +106,18 @@ $(document).ready(function () {
 /******************************
  * PROCESS MESSAGE            *
  ******************************/
-	$("#processMessage").delay(3500).fadeOut();
+
+	$("#processMessage").delay(1500).fadeOut(function() {
+		$(this).html("");
+		$(this).show();
+	});
+
+	$("#processMessage").on("processResult", function() {
+		$(this).delay(1500).fadeOut(function() {
+			$(this).html("");
+			$(this).show();
+		});
+	});
 
 /******************************
  * JS-LINK BEHAVIOR           *
@@ -122,26 +132,97 @@ $(document).ready(function () {
  * FUNCTIONS                  *
  ******************************/
 
-function listProject(targetDiv, id) {
+function showProjectEditList(targetDiv) {
 	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "/includes/ajax.php?act=loadProject&id="+id);
+	xmlhttp.open("GET", "/includes/ajax.php?act=editProjects");
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState === 4){
+		if (xmlhttp.readyState === 4) {
+			$("#history_header h2").html("Edit Projects");
 			targetDiv.innerHTML = xmlhttp.responseText;
-			buildActivityListLinks();
+
+			buildActivityDisplayLinks(".projectDetails");
+			buildActivityDeleteLinks(".projectDetails", "includes/process.php?delproj=");
+			buildActivityEditLinks(".projectDetails", createEditProjectForm);
+
+			// toggle checkboxes script
+			$(".projectDetails").find("input").change(function() {
+				$(this).attr("disabled", true);
+				var box = $(this);
+				var name = $(this).parent().parent().find(".js-link").text();		// lol, tired
+				var id = $(this).data("id");
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET", "/includes/ajax.php?act=toggleActive&id=" + id, true);
+				xmlhttp.send();
+
+				xmlhttp.onreadystatechange = function () {
+					if (xmlhttp.readyState === 4) {
+						var processMessage;
+
+						// update activity list in add activity
+
+						if ($(box).is(":checked")){
+							$("#projectSelectInput").append('<option value="' + id + '">' + name + '</option>');
+							processMessage = "Project active!";
+						} else {
+							$("#projectSelectInput option[value='" + id + "']").remove();
+							processMessage = "Project inactive!";
+						}
+						$("#processMessage").html(processMessage);
+
+
+
+						window.setTimeout(function() {
+							$(box).removeAttr('disabled');
+							$("#processMessage").trigger("processResult");
+						}, 650);
+					}
+				}
+			});
+
 			$(targetDiv).slideDown();
 		}
 	}
 }
 
-function buildActivityListLinks() {
+function listProject(targetDiv, id) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "/includes/ajax.php?act=loadProject&id="+id, true);
+	xmlhttp.send();
 
-	var listSpeed = 400;
-	var formSpeed = 200;
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState === 4){
 
-	$(".activity-entry").find(".js-link").click(function() {
+			// projectName by finding corresponding innerHTML of project list with 
+			var projectName = (id == 0 ? "" : 
+				$("#projectList").find('*[data-projectid="'+id+'"]').html());
+			
+			// changing header text
+			$("#history_header h2").html("Activity History: " + projectName);
+
+			// changing list: ajax.php builds the html
+			targetDiv.innerHTML = xmlhttp.responseText;
+
+			// adding js links for each item
+			buildActivityDisplayLinks(".activity-entry");
+			buildActivityDeleteLinks(".activity-entry", "includes/delete_activity.php?id=");
+			buildActivityEditLinks(".activity-entry", createEditActivityForm);
+
+			// display new list
+			$(targetDiv).slideDown();
+		}
+	}
+}
+
+// build links vars
+var headerSpeed = 150;
+var listSpeed = 400;
+var formSpeed = 200;
+
+// creates links to toggle an item's display
+function buildActivityDisplayLinks(activityClass) {
+	$(activityClass).find(".js-link").click(function() {
 
 		if (!$(this).parent().find(".activity-description").hasClass("active-entry")){
 
@@ -165,64 +246,52 @@ function buildActivityListLinks() {
 		}
 	
 	});
+}
 
-	$(".activity-entry").find(".d-icon").click(function() {
+// creates links for delete icons
+function buildActivityDeleteLinks(activityClass, delUrl) {
+	$(activityClass).find(".d-icon").click(function() {
 		var id = $(this).parent().data("id");
 		if(window.confirm("Are you sure you want to delete this?")){
-			window.location.href = "includes/delete_activity.php?id=" + id;
+			window.location.href = delUrl + id;
 		} 
 	});
+}
 
-	$(".activity-entry").find(".e-icon").click(function() {
+function buildActivityEditLinks(activityClass,formGenerator) {
+	$(activityClass).find(".e-icon").click(function() {
 
 		var editFormDiv = document.getElementById("edit-form");
 		var actId = $(this).parent().data("id");
 
-		createEditForm(editFormDiv, actId);
+		formGenerator(editFormDiv, actId);
+
+		oldHeader = $("#history_header h2").html();
 		$("#history-list").slideUp(listSpeed, function() {
-			$("#edit-form-div").slideDown(formSpeed);
+			$("#history_header").slideUp(headerSpeed, function() {
+				$("#history_header h2").html("Update Activity: ");
+				$("#history_header").slideDown(headerSpeed, function() {
+					$("#edit-form-div").slideDown(formSpeed);
+				});
+			});
 		});
 	});
 
 	$("#cancel-edit").click(function(){
 		$("#edit-form-div").slideUp(formSpeed, function() {
-			$("#history-list").slideDown(listSpeed, function() {
-				$("#edit-form").html("");
+			$("#history_header").slideUp(headerSpeed, function() {
+				$("#history_header h2").html(oldHeader);
+				$("#history_header").slideDown(headerSpeed, function() {
+					$("#history-list").slideDown(listSpeed, function() {
+						$("#edit-form").html("");
+					});
+				});
 			});
 		});
 	});
 }
 
-function addHomeLink(linkid, blockid) {
-	$(linkid).click(function() {
-		var inDir, outDir;
-		if (!$(linkid).hasClass("activeLink")) {
-			
-			// determine direction
-			if ($(linkid).data("order") > $('.activeLink').data("order")) {
-				outDir = "left";	
-				inDir = "right";
-			} else {
-				outDir = "right";
-				inDir = "left";
-			}
-
-			// changing linkness
-			$('.activeLink').removeClass("activeLink");
-			$(linkid).addClass("activeLink");
-
-			// slide out out
-			$(".active-component").hide('slide', {direction: outDir}, 300);
-			$(".active-component").removeClass("active-component");
-			
-			// slide this in
-			$(blockid).delay("300").show('slide', {direction: inDir}, 300);
-			$(blockid).addClass("active-component");
-		}
-	});
-}
-
-function createEditForm(targetDiv, id) {
+function createEditActivityForm(targetDiv, id) {
 
 	// ajax to create values 
 
@@ -282,10 +351,71 @@ function createEditForm(targetDiv, id) {
 			}	
 		}
 	}
-
-
 }
 
+function createEditProjectForm(targetDiv, id) {
+	
+	// ajax to create values 
+
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET",'/includes/ajax.php?act=echoProject&id='+id, true);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState === 4) {
+			if (xmlhttp.status === 200) {
+				var project = JSON.parse(xmlhttp.responseText);
+				
+				// building form from ajax values
+		
+				var addProjectForm = document.getElementById("addProject");
+				var updateForm = addProjectForm.cloneNode(true);
+
+				// hidden field that includes id
+				var idField = document.createElement("input");
+				idField.setAttribute("type","hidden");
+				idField.setAttribute("name","id");
+				idField.setAttribute("value",id);
+				updateForm.appendChild(idField);
+
+				// modifying values and attributes
+				updateForm.setAttribute('name',"updateProject");
+
+				updateForm.project.value = project.name;
+				updateForm.isActive.checked = project.isActive == 1 ? true : false;
+
+				updateForm.description.innerHTML = project.description;
+				updateForm.uriLink.value = project.uriLink;
+
+				updateForm.add_project.setAttribute('value',"Update");
+				updateForm.add_project.setAttribute('name',"mod_project");
+				updateForm.onsubmit = function() {
+					return validateProject(updateForm);
+				}
+				
+				targetDiv.appendChild(updateForm);
+
+			}	
+		}
+	}
+}
+
+function validateProject(projectForm) {
+	var isValid = true;
+	var hasValue = /\S/;
+
+	if (!hasValue.test(projectForm.project.value)){
+		alert("The project needs a name.");
+		isValid = false;
+	}
+
+	if (!hasValue.test(projectForm.description.value)){
+		alert("The project needs a description.");
+		isValid = false;
+	}
+
+	return isValid;
+}
 
 function validateActivity(activityForm) {
 	var isValid = true;
@@ -311,3 +441,31 @@ function validateActivity(activityForm) {
 	return isValid;
 }
 
+function addHomeLink(linkid, blockid) {
+	$(linkid).click(function() {
+		var inDir, outDir;
+		if (!$(linkid).hasClass("activeLink")) {
+			
+			// determine direction
+			if ($(linkid).data("order") > $('.activeLink').data("order")) {
+				outDir = "left";	
+				inDir = "right";
+			} else {
+				outDir = "right";
+				inDir = "left";
+			}
+
+			// changing linkness
+			$('.activeLink').removeClass("activeLink");
+			$(linkid).addClass("activeLink");
+
+			// slide out out
+			$(".active-component").hide('slide', {direction: outDir}, 300);
+			$(".active-component").removeClass("active-component");
+			
+			// slide this in
+			$(blockid).delay("300").show('slide', {direction: inDir}, 300);
+			$(blockid).addClass("active-component");
+		}
+	});
+}

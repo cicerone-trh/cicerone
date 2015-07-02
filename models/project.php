@@ -5,28 +5,59 @@
 	class Project {
 
 		private $db;
+		private $owner_id;
 		private $project_id;
 		private $name;
 		private $description;
+		private $url;
+		private $currentlyActive;
 		private $activities;
 
+		public $asArray;
+
 		public function __construct($projectArray, $db) {
-		
+			$this->db = $db;
+
 			// if statement so can construct from id only
-
+			
 			if (is_array($projectArray)) {
-				$this->db = $db;
 				$this->project_id = $projectArray['id'];
+				$this->buildFromArray($projectArray);
 
-				$this->name = $projectArray['name'];
-				$this->description = $projectArray['description'];
+			// only given id
 			} else {
-				$this->db = $db;
 				$this->project_id = $projectArray;
+				$sql = "select * from cicerone_projects where id = $this->project_id";
+				$result = $this->db->query($sql);
+				$projectArray = $result->fetch_assoc();
+				$this->buildFromArray($projectArray);
 			}
 
 			$this->activities = array();
 			$this->buildActivitiesList();
+		}
+
+		private function buildFromArray($projectArray) {
+			$this->asArray = $projectArray;
+
+			$this->owner_id = $projectArray['user_id'];
+			$this->currentlyActive = $projectArray['isActive'];
+			$this->name = $projectArray['name'];
+			$this->description = $projectArray['description'];
+			$this->url = $projectArray['uriLink'];
+		}
+
+		public function deleteProject() {
+			if ($_SESSION['user_id'] == $this->owner_id) {
+				$sql = "DELETE FROM cicerone_projects WHERE id= " . $this->project_id;
+				if($this->db->query($sql)){
+					$_SESSION['processMessage'] = "Project deleted.";
+				} else {
+					$_SESSION['processMessage'] = "DB Error.";
+				}
+			} else {
+				$_SESSION['processMessage'] = "You do not have permission to delete this.";
+			}
 		}
 
 		public function getActivities() {
@@ -71,10 +102,60 @@
 			}
 		}
 
+		public function isActive() {
+			return $this->currentlyActive;
+		}
+
 		public function listActivities() {
 			foreach ($this->activities as $activity) {
 				$activity->displaySelf();
 			}
+		}
+
+		public function listSelf($toEdit = true) {
+			echo '<div class="projectDetails">' . "\n";
+				echo '<span class="projectTime">' . number_format($this->getTime() / 3600, 2) . '</span>';
+				echo '<span class="js-link">' . $this->getName(). '</span>';
+				echo "<span data-id=\"" . $this->getId() . "\"" . "class=\"icons hidden\">";
+				echo "<img class=\"e-icon\" src=\"/img/edit.svg\" alt=\"Edit\"/>";
+				if (!$this->hasActivities()) {
+					echo "<img class=\"d-icon\" src=\"/img/delete_2.svg\" alt=\"Delete\"/>";
+				}
+				echo "</span>";
+				echo '<span class="activeProject">';
+					echo '<input data-id=' . $this->getId() . ' type="checkbox" ' . (($this->isActive()) ? "checked" : "") . '>';
+				echo '</span>';
+				echo '<div class="activity-description hidden">';
+				echo $this->getDescription();
+				echo '</div>';
+			echo "</div>";
+		}
+
+		public function saveToDB() {
+			$success = true;
+			if ($stmt = $this->db->prepare(
+				"UPDATE cicerone_projects " .
+				"SET name=?,description=?,isActive=?,uriLink=? " .
+				"WHERE id=". $this->project_id	
+			)) {	
+				$stmt->bind_param(ssis, $this->name, $this->description, $this->currentlyActive, $this->url);
+				if (!$stmt->execute()){
+					$success = false;
+				}
+			} else {
+				$success = false;
+			}
+
+			return $success;
+		}
+
+		public function toggleActive() {
+			// verify user is owner:
+			if ($_SESSION['user_id'] == $this->owner_id) {
+				$newState = ($this->currentlyActive ? 0 : 1);
+				$sql = "UPDATE cicerone_projects SET isActive=$newState WHERE id=$this->project_id"; 
+				$this->db->query($sql);
+			} 
 		}
 
 		private function buildActivitiesList() {

@@ -66,12 +66,59 @@
 			}
 		}
 
-		public function listProjects() {
-			foreach ($this->projects as $project) {
-				if ($project->hasActivities()) {
-					echo "<li data-projectid=\"" . $project->getId() . "\">";
-					echo $project->getName();
-					echo "</li>\n";
+		public function listProjects($toEdit = false) {
+
+			// listing to edit
+			if ($toEdit) {
+
+				// sort projects
+				$active = array();
+				$inactive = array();
+				foreach ($this->projects as $project) {
+					$offset = 0;
+
+					if ($project->isActive()) {
+						if (isset($active[$project->getTime()])) {
+							$offset = $project->getId();
+						}
+						$active[$project->getTime() + $offset] = $project;
+
+					} else {
+						if (isset($inactive[$project->getTime()])) {
+							$offset = $project->getId();
+						}
+						$inactive[$project->getTime() + $offset] = $project;
+					}
+				}			
+
+				krsort($active);
+				krsort($inactive);
+
+				// display heading
+
+				echo '<div class="projectDetails">';
+				echo '<span class="projectTime">Hours</span>';
+				echo '<span>Name</span>';
+				echo '<span class="activeProject">Active?</span>';
+				echo '</div>';
+
+				// display projects
+				foreach ($active as $project) {
+					$project->listSelf($toEdit);
+				}
+
+				foreach ($inactive as $project) {
+					$project->listSelf($toEdit);
+				}
+
+			// just listing
+			} else {
+				foreach ($this->projects as $project) {
+					if ($project->hasActivities()) {
+						echo "<li data-projectid=\"" . $project->getId() . "\">";
+						echo $project->getName();
+						echo "</li>\n";
+					}
 				}
 			}
 		}
