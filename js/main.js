@@ -262,6 +262,7 @@ function buildActivityEditLinks(activityClass,formGenerator) {
 	$(activityClass).find(".e-icon").click(function() {
 
 		var editFormDiv = document.getElementById("edit-form");
+		editFormDiv.innerHTML = "";
 		var actId = $(this).parent().data("id");
 
 		formGenerator(editFormDiv, actId);
