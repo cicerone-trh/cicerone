@@ -3,18 +3,45 @@
 	 * This page displays a user's history.
 	 * */
 ?>
-<?php $document_title = "User View"; ?>
+<?php $document_title = "History"; ?>
 <?php include("includes/header.php"); ?>
 <?php require_once("../scripts/db_connect.php"); ?>
 
-<?php
-	
-	// okay so the plan is to get the id,
-	// check if the id exists
-	// check if it is public
-	// and then if it is create a user object
-	// then use that user object to display shit
-?>
+	<style type="text/css">
+		.projectListing {
+			width: 100%;
+		}
 
+		.projectListing span {
+			display:inline-block;
+			width: 20%;
+		}
+		.projectListing .name {
+			width: 40%;
+		}
+		.projectListing .actCount {
+			width: 10%;
+		}
+		.projectListing .hours {
+			width: 10%;
+		}
+	</style>
+
+	<?php 
+		// iterate through user's projects
+		// now I see how I was so stupid about this :)
+		
+		$projects = $User->getProjects();
+
+		foreach($projects as $project) {
+			if ($project->hasActivities()){ 
+				echo '<div class="projectListing">';
+				echo '<span class="name">' . $project->getName() . '</span>';
+				echo '<span class="actCount">' . count($project->getActivities()) . '</span>';
+				echo '<span class="hours">' . number_format(($project->getTime()/3600), 2) . '</span>';
+				echo '</div>';
+			}
+		}
+	?>
 
 <?php include("includes/footer.php"); ?>

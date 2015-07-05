@@ -20,7 +20,7 @@
 <div class="component-container">
 <div class="grid active-component" id="view-history">
 	<div class="unit one-of-four">
-	<h2>Projects <img id="editProjects" alt="Edit" src="/img/edit_project.svg"></h2>
+	<h2>Projects <img style="width:0.75em;height:0.75em" id="editProjects" alt="Edit" src="/img/edit_project.svg"></h2>
 		<ul id="projectList">
 			<li data-projectid="0" class="selected">--View All</li>
 			<?php $User->listProjects(); ?>

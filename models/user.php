@@ -13,7 +13,6 @@
 
 		private $listType;
 
-
 		public function __construct ($id, $db) {
 			$this->db = $db;
 			$this->user_id = $id;
@@ -28,6 +27,10 @@
 
 		public function getId() {
 			return $this->user_id;
+		}
+
+		public function getProjects() {
+			return $this->projects;
 		}
 
 		public function getTime() {
@@ -125,12 +128,17 @@
 
 		private function buildProjectList() {
 			$sql = "select * from cicerone_projects where user_id = $this->user_id";
-			$result = $this->db->query($sql);   	
-			while ($row = $result->fetch_assoc()) {
-				$this->projects[$row['id']] = new Project($row, $this->db);
-				$projectActivities = $this->projects[$row['id']]->getActivities();
-				foreach ($projectActivities as $activity) {
-					$this->activities[$activity->getId()] = $activity;
+			$result = $this->db->query($sql);
+			if (!$result) {
+				echo "something went wrong: ";
+				echo $this->db->errno;
+			} else {	
+				while ($row = $result->fetch_assoc()) {
+					$this->projects[$row['id']] = new Project($row, $this->db);
+					$projectActivities = $this->projects[$row['id']]->getActivities();
+					foreach ($projectActivities as $activity) {
+						$this->activities[$activity->getId()] = $activity;
+					}
 				}
 			}
 		}

@@ -270,7 +270,7 @@ function buildActivityEditLinks(activityClass,formGenerator) {
 		oldHeader = $("#history_header h2").html();
 		$("#history-list").slideUp(listSpeed, function() {
 			$("#history_header").slideUp(headerSpeed, function() {
-				$("#history_header h2").html("Update Activity: ");
+				$("#history_header h2").html("Update Entry: ");
 				$("#history_header").slideDown(headerSpeed, function() {
 					$("#edit-form-div").slideDown(formSpeed);
 				});

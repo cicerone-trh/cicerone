@@ -23,7 +23,14 @@
 		}
 
 		if ($isValid) {
+			// hacking array values
 			$_POST['name'] = $_POST['project'];
+			if (isset($_POST['isActive'])){
+				$_POST['isActive'] = 1;
+			} else {
+				$_POST['isActive'] = 0;
+			}	
+
 			$project = new Project($_POST,$conn);
 			$success = $project->saveToDB();
 
