@@ -61,6 +61,7 @@
 		}
 
 		public function getActivities() {
+			krsort($this->activities);
 			return $this->activities;
 		}
 
@@ -106,6 +107,7 @@
 			return $this->currentlyActive;
 		}
 
+		// deprecating
 		public function listActivities() {
 			foreach ($this->activities as $activity) {
 				$activity->displaySelf();

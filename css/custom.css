@@ -134,6 +134,22 @@ span.hidden {
 /******
 * VIEW HISTORY STYLES 
 ******/
+
+#history_header h2 {
+	display:inline-block;
+	width: 74%;
+}
+
+#history_header #activityListingControls {
+	text-align:right;
+	display:inline-block;
+	width: 25%;
+}
+
+#history_header #moreActivitiesLink{
+	margin-left: 2em;
+}
+
 #projectList {
 	padding-left: 4px;
 	margin-bottom: 0.5em;

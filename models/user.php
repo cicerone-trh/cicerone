@@ -24,6 +24,10 @@
 			$this->listType = "default";
 		}
 
+		public function getActivities() {
+			krsort($this->activities);
+			return $this->activities;
+		}
 
 		public function getId() {
 			return $this->user_id;
@@ -49,6 +53,7 @@
 			return number_format($totalTime/3600,2);
 		}
 
+		// deprecating
 		// list activities in reverse chronological order
 		public function listActivities() {
 			if (count($this->activities) > 0) {

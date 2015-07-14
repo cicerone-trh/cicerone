@@ -37,8 +37,8 @@
 			if ($project->hasActivities()){ 
 				echo '<div class="projectListing">';
 				echo '<span class="name">' . $project->getName() . '</span>';
-				echo '<span class="actCount">' . count($project->getActivities()) . '</span>';
 				echo '<span class="hours">' . number_format(($project->getTime()/3600), 2) . '</span>';
+				echo '<span class="js-link actCount">' . count($project->getActivities()) . '</span>';
 				echo '</div>';
 			}
 		}

@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+	// first, we will determine how many items to list
+	// then, we will make the ajax call to populate the default list
+	// just going to assume 6 lines is the max, but could figure it out by:
+		// find longest string in descriptions; 
+
+
 /******************************
  * DEFAULT PAGE LINKS         *
  ******************************/
@@ -39,6 +46,8 @@ $(document).ready(function () {
 	buildActivityDisplayLinks(".activity-entry");
 	buildActivityDeleteLinks(".activity-entry", "includes/delete_activity.php?id=");
 	buildActivityEditLinks(".activity-entry", createEditActivityForm);
+	buildListControlLinks("#moreActivitiesLink", 'data-more');
+	buildListControlLinks("#lessActivitiesLink", 'data-less');
 
 /******************************
  * PROJECT LIST CONTROLS      *
@@ -131,10 +140,52 @@ $(document).ready(function () {
 /******************************
  * FUNCTIONS                  *
  ******************************/
+// 	buildListControlLinks("#moreActivitiesLink", 'data-more');
+//
+function buildListControlLinks(targetDiv, targetAttr) {
+
+	$(targetDiv).click(function() {
+		var index = $("#listData").attr(targetAttr);
+
+		// create ajax request for more items
+		var xmlhttp = new XMLHttpRequest;
+
+		xmlhttp.open("GET", "/includes/ajax.php?act=getActs&index=" + index, true);
+		xmlhttp.send();
+
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState === 4) {
+
+				$("#history-list").html(xmlhttp.responseText);
+
+				var isLess = $("#listData").attr('data-less');
+				var isMore = $("#listData").attr('data-more');
+
+				if (isMore > 0) {
+					$("#moreActivitiesLink").show();
+				} else {
+					$("#moreActivitiesLink").hide();
+				}
+				
+				if (isLess >= 0) {
+					$("#lessActivitiesLink").show();
+				} else {
+					$("#lessActivitiesLink").hide();
+				}
+
+				buildActivityDisplayLinks(".activity-entry");
+				buildActivityDeleteLinks(".activity-entry", "includes/delete_activity.php?id=");
+				buildActivityEditLinks(".activity-entry", createEditActivityForm);
+
+			}
+		}
+	});
+
+}
 
 function showProjectEditList(targetDiv) {
 	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "/includes/ajax.php?act=editProjects");
+	xmlhttp.open("GET", "/includes/ajax.php?act=editProjects", true);
 	xmlhttp.send();
 
 	xmlhttp.onreadystatechange = function () {
@@ -203,6 +254,21 @@ function listProject(targetDiv, id) {
 
 			// changing list: ajax.php builds the html
 			targetDiv.innerHTML = xmlhttp.responseText;
+
+			var isLess = $("#listData").attr('data-less');
+			var isMore = $("#listData").attr('data-more');
+
+			if (isMore > 0) {
+				$("#moreActivitiesLink").show();
+			} else {
+				$("#moreActivitiesLink").hide();
+			}
+			
+			if (isLess >= 0) {
+				$("#lessActivitiesLink").show();
+			} else {
+				$("#lessActivitiesLink").hide();
+			}
 
 			// adding js links for each item
 			buildActivityDisplayLinks(".activity-entry");

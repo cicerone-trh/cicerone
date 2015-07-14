@@ -7,6 +7,9 @@
 <?php $document_title = "Home"; ?>
 <?php include("includes/header.php"); ?>
 <?php require_once("../scripts/db_connect.php"); ?>
+<?php require_once("views/lister.php"); 
+	$lister = new Lister();
+?>
 
 <div class="content-header">
 	<ul>
@@ -27,7 +30,7 @@
 		</ul>
 		<div id="projectListControls" class="clickable">
 			<span id="editProjectLink" style="display:inline-block; width:49%" class=""></span>
-			<span id="showProjectLink" style="display:inline-block; width:49%" class="">List</span>
+			<span id="showProjectLink" style="display:inline-block; width:49%" class="">List Activities</span>
 		</div>
 
 		<p>Total Hours Recorded: <?php echo $User->getTime(); ?><br>
@@ -47,10 +50,17 @@
 	<div class="unit three-of-four">
 		<div id="history_header">
 			<h2>Activity History: </h2>
-			<!--<span id="expand_all">Show All</span><span id="hide_all">Hide All</span>-->
+			<div id="activityListingControls">
+				<span class="hidden js-link" id="lessActivitiesLink">&lt;&lt; Less</span><span class="js-link" id="moreActivitiesLink">More &gt;&gt;</span>
+			</div>
+			<div class="clear">
+			</div>
 		</div>
 		<div id="history-list">
-			<?php $User->listActivities(); ?>
+			<?php if ($lister->echoActivities($User, 0, 15) == false) {
+				echo "<p>To get started...</p>";
+			} ?>
+			<?php // $User->listActivities(); ?>
 		</div>
 		<div id="edit-form-div" class="hidden">
 			<div id="edit-form">
@@ -68,7 +78,7 @@
 		<div class="grid">
 			<input class="unit three-of-five" name="project"  type="text">
 			<span class="unit two-of-five" style="text-align:center">
-				<input type="checkbox" name="isActive">
+				<input type="checkbox" name="isActive" checked="checked">
 			</span>
 		</div>
 		<div class="grid">

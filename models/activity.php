@@ -66,6 +66,7 @@
 			}
 		}
 
+		// deprecating
 		public function displaySelf() {
 			echo "<div class=\"activity-entry\">";
 			echo "<span class=\"activity-date\"> [" . $this->getMDY() . "] </span>";
