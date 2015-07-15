@@ -26,7 +26,7 @@
 	<h2>Projects <img style="width:0.75em;height:0.75em" id="editProjects" alt="Edit" src="/img/edit_project.svg"></h2>
 		<ul id="projectList">
 			<li data-projectid="0" class="selected">--View All</li>
-			<?php $User->listProjects(); ?>
+			<?php $lister->echoProjectsSimple($User); ?>
 		</ul>
 		<div id="projectListControls" class="clickable">
 			<span id="editProjectLink" style="display:inline-block; width:49%" class=""></span>
@@ -51,16 +51,13 @@
 		<div id="history_header">
 			<h2>Activity History: </h2>
 			<div id="activityListingControls">
-				<span class="hidden js-link" id="lessActivitiesLink">&lt;&lt; Less</span><span class="js-link" id="moreActivitiesLink">More &gt;&gt;</span>
+				<span class="hidden js-link" id="lessActivitiesLink">&lt;&lt; Less</span><span class="hidden js-link" id="moreActivitiesLink">More &gt;&gt;</span>
 			</div>
 			<div class="clear">
 			</div>
 		</div>
 		<div id="history-list">
-			<?php if ($lister->echoActivities($User, 0, 15) == false) {
-				echo "<p>To get started...</p>";
-			} ?>
-			<?php // $User->listActivities(); ?>
+			<?php $lister->echoActivities($User, 0, 18); ?>
 		</div>
 		<div id="edit-form-div" class="hidden">
 			<div id="edit-form">

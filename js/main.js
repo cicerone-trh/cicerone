@@ -140,9 +140,27 @@ $(document).ready(function () {
 /******************************
  * FUNCTIONS                  *
  ******************************/
-// 	buildListControlLinks("#moreActivitiesLink", 'data-more');
-//
+
+function setControlVisibility() {
+	var isLess = $("#listData").attr('data-less');
+	var isMore = $("#listData").attr('data-more');
+
+	if (isMore > 0) {
+		$("#moreActivitiesLink").show();
+	} else {
+		$("#moreActivitiesLink").hide();
+	}
+	
+	if (isLess >= 0) {
+		$("#lessActivitiesLink").show();
+	} else {
+		$("#lessActivitiesLink").hide();
+	}
+}
+
 function buildListControlLinks(targetDiv, targetAttr) {
+
+	setControlVisibility();
 
 	$(targetDiv).click(function() {
 		var index = $("#listData").attr(targetAttr);
@@ -158,21 +176,7 @@ function buildListControlLinks(targetDiv, targetAttr) {
 
 				$("#history-list").html(xmlhttp.responseText);
 
-				var isLess = $("#listData").attr('data-less');
-				var isMore = $("#listData").attr('data-more');
-
-				if (isMore > 0) {
-					$("#moreActivitiesLink").show();
-				} else {
-					$("#moreActivitiesLink").hide();
-				}
-				
-				if (isLess >= 0) {
-					$("#lessActivitiesLink").show();
-				} else {
-					$("#lessActivitiesLink").hide();
-				}
-
+				setControlVisibility();
 				buildActivityDisplayLinks(".activity-entry");
 				buildActivityDeleteLinks(".activity-entry", "includes/delete_activity.php?id=");
 				buildActivityEditLinks(".activity-entry", createEditActivityForm);
@@ -191,6 +195,8 @@ function showProjectEditList(targetDiv) {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState === 4) {
 			$("#history_header h2").html("Edit Projects");
+			$("#activityListingControls").hide();
+
 			targetDiv.innerHTML = xmlhttp.responseText;
 
 			buildActivityDisplayLinks(".projectDetails");
@@ -254,6 +260,8 @@ function listProject(targetDiv, id) {
 
 			// changing list: ajax.php builds the html
 			targetDiv.innerHTML = xmlhttp.responseText;
+
+			$("#activityListingControls").show();
 
 			var isLess = $("#listData").attr('data-less');
 			var isMore = $("#listData").attr('data-more');
@@ -337,6 +345,7 @@ function buildActivityEditLinks(activityClass,formGenerator) {
 		$("#history-list").slideUp(listSpeed, function() {
 			$("#history_header").slideUp(headerSpeed, function() {
 				$("#history_header h2").html("Update Entry: ");
+				$("#activityListingControls").hide();
 				$("#history_header").slideDown(headerSpeed, function() {
 					$("#edit-form-div").slideDown(formSpeed);
 				});
@@ -348,6 +357,7 @@ function buildActivityEditLinks(activityClass,formGenerator) {
 		$("#edit-form-div").slideUp(formSpeed, function() {
 			$("#history_header").slideUp(headerSpeed, function() {
 				$("#history_header h2").html(oldHeader);
+				$("#activityListingControls").show();
 				$("#history_header").slideDown(headerSpeed, function() {
 					$("#history-list").slideDown(listSpeed, function() {
 						$("#edit-form").html("");

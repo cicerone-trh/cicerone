@@ -107,32 +107,6 @@
 			return $this->currentlyActive;
 		}
 
-		// deprecating
-		public function listActivities() {
-			foreach ($this->activities as $activity) {
-				$activity->displaySelf();
-			}
-		}
-
-		public function listSelf($toEdit = true) {
-			echo '<div class="projectDetails">' . "\n";
-				echo '<span class="projectTime">' . number_format($this->getTime() / 3600, 2) . '</span>';
-				echo '<span class="js-link">' . $this->getName(). '</span>';
-				echo "<span data-id=\"" . $this->getId() . "\"" . "class=\"icons hidden\">";
-				echo "<img class=\"e-icon\" src=\"/img/edit.svg\" alt=\"Edit\"/>";
-				if (!$this->hasActivities()) {
-					echo "<img class=\"d-icon\" src=\"/img/delete_2.svg\" alt=\"Delete\"/>";
-				}
-				echo "</span>";
-				echo '<span class="activeProject">';
-					echo '<input data-id=' . $this->getId() . ' type="checkbox" ' . (($this->isActive()) ? "checked" : "") . '>';
-				echo '</span>';
-				echo '<div class="activity-description hidden">';
-				echo $this->getDescription();
-				echo '</div>';
-			echo "</div>";
-		}
-
 		public function saveToDB() {
 			$success = true;
 			if ($stmt = $this->db->prepare(

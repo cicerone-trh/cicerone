@@ -49,7 +49,16 @@ class Lister {
 
 		// display case where no activities are found and return false
 		} else {
-			echo "<p>No activities found!</p>";
+			echo "<p>To get started, add a project.</p><p>Then add an activity to that project.</p> <p>And then the world is your's &#94;&#95;&#94;</p>";
+
+			$dataMore = 0;
+			$dataLess = -15;
+
+			echo '<span class="hidden" id="listData" ' . 
+				' data-more="' . $dataMore . '"' . 
+				' data-less="' . $dataLess . '"' .
+				'">';
+			echo '</span>';
 			return false;
 		}
 	}
@@ -72,6 +81,81 @@ class Lister {
 		echo "<br>";
 		echo "<div class=\"clear\"></div>";
 		echo "</div>";
+		echo "</div>";
+	}
+
+	public function echoProjects($listable) {
+		
+		$projects = $listable->getProjects();
+
+		// sort projects
+		$active = array();
+		$inactive = array();
+		foreach ($projects as $project) {
+			$offset = 0;
+
+			if ($project->isActive()) {
+				if (isset($active[$project->getTime()])) {
+					$offset = $project->getId();
+				}
+				$active[$project->getTime() + $offset] = $project;
+
+			} else {
+				if (isset($inactive[$project->getTime()])) {
+					$offset = $project->getId();
+				}
+				$inactive[$project->getTime() + $offset] = $project;
+			}
+		}			
+
+		krsort($active);
+		krsort($inactive);
+
+		// display heading
+
+		echo '<div class="projectDetails">';
+		echo '<span class="projectTime">Hours</span>';
+		echo '<span>Name</span>';
+		echo '<span class="activeProject">Active?</span>';
+		echo '</div>';
+
+		// display projects
+		foreach ($active as $project) {
+			$this->echoProject($project);
+		}
+
+		foreach ($inactive as $project) {
+			$this->echoProject($project);
+		}
+	}
+
+	public function echoProjectsSimple($listable) {
+		$projects = $listable->getProjects();
+		foreach ($projects as $project) {
+			if ($project->hasActivities()) {
+				echo "<li data-projectid=\"" . $project->getId() . "\">";
+				echo $project->getName();
+				echo "</li>\n";
+			}
+		}
+	}	
+
+	public function echoProject($project) {
+		echo '<div class="projectDetails">' . "\n";
+			echo '<span class="projectTime">' . number_format($project->getTime() / 3600, 2) . '</span>';
+			echo '<span class="js-link">' . $project->getName(). '</span>';
+			echo "<span data-id=\"" . $project->getId() . "\"" . "class=\"icons hidden\">";
+			echo "<img class=\"e-icon\" src=\"/img/edit.svg\" alt=\"Edit\"/>";
+			if (!$project->hasActivities()) {
+				echo "<img class=\"d-icon\" src=\"/img/delete_2.svg\" alt=\"Delete\"/>";
+			}
+			echo "</span>";
+			echo '<span class="activeProject">';
+				echo '<input data-id=' . $project->getId() . ' type="checkbox" ' . (($project->isActive()) ? "checked" : "") . '>';
+			echo '</span>';
+			echo '<div class="activity-description hidden">';
+			echo $project->getDescription();
+			echo '</div>';
 		echo "</div>";
 	}
 }

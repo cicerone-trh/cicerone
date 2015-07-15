@@ -66,28 +66,6 @@
 			}
 		}
 
-		// deprecating
-		public function displaySelf() {
-			echo "<div class=\"activity-entry\">";
-			echo "<span class=\"activity-date\"> [" . $this->getMDY() . "] </span>";
-			echo "<span class=\"js-link\">" . $this->getName() . "</span>";
-
-			echo "<span class=\"fr activity-duration\"> (" . $this->getTimeAsHours() . ") </span>";
-			if ($this->hasLink()) {
-				echo "<span class=\"fr\"><a target=\"_blank\" href=\"" . $this->getLink() . "\">Link</a></span>";
-			}
-			echo "<span data-id=\"" . $this->getId() . "\"" . "class=\"icons hidden\">";
-			echo "<img class=\"e-icon\" src=\"/img/edit.svg\" alt=\"Edit\"/>";
-			echo "<img class=\"d-icon\" src=\"/img/delete_2.svg\" alt=\"Delete\"/>";
-			echo "</span>";
-			echo "<div class=\"activity-description hidden\">";
-			echo $this->getDesc();
-			echo "<br>";
-			echo "<div class=\"clear\"></div>";
-			echo "</div>";
-			echo "</div>";
-		}
-
 		public function getDesc() {
 			return $this->description;
 		}

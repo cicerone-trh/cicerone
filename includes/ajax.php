@@ -1,6 +1,7 @@
 <?php
 
-	// ajax.php?act=""&arg1=""	
+	// Ajax controller:
+	// ajax.php?act=""&arg1=""
 
 	error_reporting(E_ALL);
 	ini_set('display_errors',1);
@@ -14,11 +15,11 @@
 
 		$user = new User($_SESSION['user_id'],$conn);
 		$lister = new Lister();
-		$listerCount = 15;
+		$listerCount = 18;
 
 		// retrieve list of projects for editing
 		if ($_GET['act'] == "editProjects") {
-			$user->listProjects(true);
+			$lister->echoProjects($user);
 
 		// retrieve project as html item
 		} else if ($_GET['act'] == "loadProject" && isset($_GET['id'])){
@@ -35,6 +36,7 @@
 			$project = new Project($_GET['id'],$conn);
 			$project->toggleActive();
 
+		// retrieve project as JSON
 		} else if ($_GET['act'] == "echoProject" && isset($_GET['id'])){
 			$project = new Project($_GET['id'],$conn);
 			echo json_encode($project->asArray);
